@@ -1,5 +1,5 @@
 # ---------- Build Stage ----------
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -14,18 +14,18 @@ COPY . .
 RUN npm run build
 
 # ---------- Production Stage ----------
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 
 # Copy necessary files from builder
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/package*.json ./
-
-# Install only production deps
-RUN npm install --omit=dev
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
 
 EXPOSE 3000
-CMD ["npm", "start"]
+
+ENV HOSTNAME="0.0.0.0"
+CMD ["node", "server.js"]
