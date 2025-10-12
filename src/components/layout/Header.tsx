@@ -23,8 +23,8 @@ export default function Header() {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-        ? 'bg-white/95 backdrop-blur-md shadow-2xl border-b border-red-100'
-        : 'bg-white shadow-lg border-b border-gray-100'
+      ? 'bg-white/95 backdrop-blur-md shadow-2xl border-b border-red-100'
+      : 'bg-white shadow-lg border-b border-gray-100'
       }`}>
       <div className="container mx-auto px-4 lg:px-6">
         <div className="flex justify-between items-center h-16 lg:h-18">
@@ -47,9 +47,15 @@ export default function Header() {
               </span>
               <div className="text-xs text-gray-500 font-medium -mt-1">Healthcare Excellence</div>
             </div>
+
             <span className="sm:hidden text-xl font-bold bg-gradient-to-r from-red-600 to-blue-600 bg-clip-text text-transparent">
               Klinik Mekar
             </span>
+
+            <div className="ml-3 flex flex-col items-center justify-center bg-red-600 text-white rounded-lg px-2 py-1 leading-none shadow-md hover:scale-105 transition-transform duration-300">
+              <span className="text-lg lg:text-xl font-bold">24</span>
+              <span className="text-[10px] font-semibold tracking-wider">HOURS</span>
+            </div>
           </Link>
 
           {/* Enhanced Desktop Navigation */}
@@ -57,8 +63,8 @@ export default function Header() {
             <Link
               href="/"
               className={`relative px-4 py-2 font-medium rounded-lg transition-all duration-300 group ${isActive('/')
-                  ? 'text-blue-600 bg-blue-50'
-                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
+                ? 'text-blue-600 bg-blue-50'
+                : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
                 }`}
             >
               Home
@@ -67,8 +73,8 @@ export default function Header() {
             <Link
               href="/doctors-section"
               className={`relative px-4 py-2 font-medium rounded-lg transition-all duration-300 group ${isActive('/doctors-section')
-                  ? 'text-blue-600 bg-blue-50'
-                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
+                ? 'text-blue-600 bg-blue-50'
+                : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
                 }`}
             >
               Doctors
@@ -77,8 +83,8 @@ export default function Header() {
             <Link
               href="/services-section"
               className={`relative px-4 py-2 font-medium rounded-lg transition-all duration-300 group ${isActive('/services-section')
-                  ? 'text-blue-600 bg-blue-50'
-                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
+                ? 'text-blue-600 bg-blue-50'
+                : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
                 }`}
             >
               Services
@@ -87,8 +93,8 @@ export default function Header() {
             <Link
               href="/about-section"
               className={`relative px-4 py-2 font-medium rounded-lg transition-all duration-300 group ${isActive('/about-section')
-                  ? 'text-blue-600 bg-blue-50'
-                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
+                ? 'text-blue-600 bg-blue-50'
+                : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
                 }`}
             >
               About
@@ -97,8 +103,8 @@ export default function Header() {
             <Link
               href="/contact-section"
               className={`relative px-4 py-2 font-medium rounded-lg transition-all duration-300 group ${isActive('/contact-section')
-                  ? 'text-blue-600 bg-blue-50'
-                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
+                ? 'text-blue-600 bg-blue-50'
+                : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
                 }`}
             >
               Contact
@@ -159,8 +165,8 @@ export default function Header() {
               <Link
                 href="/"
                 className={`flex items-center px-4 py-3 font-medium rounded-lg transition-all duration-300 ${isActive('/')
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
+                  ? 'text-blue-600 bg-blue-50'
+                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
                   }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -173,8 +179,8 @@ export default function Header() {
               <Link
                 href="/doctors-section"
                 className={`flex items-center px-4 py-3 font-medium rounded-lg transition-all duration-300 ${isActive('/doctors-section')
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
+                  ? 'text-blue-600 bg-blue-50'
+                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
                   }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -187,8 +193,8 @@ export default function Header() {
               <Link
                 href="/services-section"
                 className={`flex items-center px-4 py-3 font-medium rounded-lg transition-all duration-300 ${isActive('/services-section')
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
+                  ? 'text-blue-600 bg-blue-50'
+                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
                   }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -201,8 +207,8 @@ export default function Header() {
               <Link
                 href="/about-section"
                 className={`flex items-center px-4 py-3 font-medium rounded-lg transition-all duration-300 ${isActive('/about-section')
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
+                  ? 'text-blue-600 bg-blue-50'
+                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
                   }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -215,8 +221,8 @@ export default function Header() {
               <Link
                 href="/contact-section"
                 className={`flex items-center px-4 py-3 font-medium rounded-lg transition-all duration-300 ${isActive('/contact-section')
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
+                  ? 'text-blue-600 bg-blue-50'
+                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50'
                   }`}
                 onClick={() => setIsOpen(false)}
               >
