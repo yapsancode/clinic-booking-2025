@@ -104,8 +104,14 @@ export default function Sidebar({ isOpen }: SidebarProps) {
   const menuItems: MenuItem[] = [
     { icon: BarChart3, label: "Dashboard", href: "/admin/dashboard" },
     { icon: Megaphone, label: "Promotions", href: "/admin/promotions" },
-    { icon: Calendar, label: "Appointments", href: "/admin/appointments" },
     { icon: Settings, label: "Services", href: "/admin/services" },
+    {
+      icon: Calendar, label: "Appointments",
+      children: [
+        { label: "Appointment Listing", href: "/admin/appointments", },
+        { label: "Appointment Mgmt", href: "/admin/appointments-mgmt", }
+      ],
+    },
     {
       icon: Users,
       label: "Doctors",

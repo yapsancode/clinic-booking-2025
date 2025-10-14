@@ -20,9 +20,9 @@ export default function BookingForm() {
 
       <main>
         {currentStep === 1 && <StepAppointment />}
-        {currentStep === 2 && <StepPatient />}
-        {currentStep === 3 && <StepConfirm />}
-        {currentStep === 4 && <StepCompleted />}
+        {/* {currentStep === 2 && <StepPatient />} */}
+        {currentStep === 2 && <StepConfirm />} // Confirmation and Auth
+        {currentStep === 3 && <StepCompleted />}
       </main>
     </div>
   );

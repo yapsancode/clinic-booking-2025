@@ -8,9 +8,8 @@ type Step = {
 
 const steps: Step[] = [
   { id: 1, title: "Appointment Details" },
-  { id: 2, title: "Patient Information" },
-  { id: 3, title: "Confirmation" },
-  { id: 4, title: "Completed" },
+  { id: 2, title: "Confirmation" },
+  { id: 3, title: "Completed" },
 ];
 
 export default function StepsIndicator({ currentStep }: { currentStep: number }) {

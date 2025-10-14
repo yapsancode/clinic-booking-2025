@@ -84,7 +84,7 @@ export default function AppointmentsPage() {
   return (
     <>
       <TableSection
-        title="Appointments Management"
+        title="Appointments Listing"
         data={filteredData}
         columns={[
           { key: "patient", label: "Patient" },
@@ -137,7 +137,7 @@ export default function AppointmentsPage() {
           setSelectedAppointment(null);
           setIsModalOpen(true);
         }}
-        addLabel="Add Appointment"
+        // addLabel="Add Appointment"
       />
 
       {/* 🪟 Modal for Add/Edit */}

@@ -8,9 +8,9 @@ import TableSection from "../components/TableSection";
 import { Service } from "@/types/services";
 
 const initialServices: Service[] = [
-    { id: 1, name: "General Consultation", deletedFlag: false },
-    { id: 2, name: "Dental Cleaning", deletedFlag: false },
-    { id: 3, name: "Physiotherapy", deletedFlag: true },
+    { id: 1, name: "General Consultation", serviceDesc: "General Consultation", deletedFlag: false },
+    { id: 2, name: "Dental Cleaning", serviceDesc: "Dental Cleaning", deletedFlag: false },
+    { id: 3, name: "Physiotherapy", serviceDesc: "Physiotherapy", deletedFlag: true },
 ];
 
 export default function ServicesPage() {
@@ -66,6 +66,7 @@ export default function ServicesPage() {
                 columns={[
                     { key: "id", label: "ID" },
                     { key: "name", label: "Service Name" },
+                    { key: "serviceDesc", label: "Service Description" },
                     {
                         key: "deleted",
                         label: "Status",
