@@ -158,10 +158,10 @@ export default function StepConfirm() {
       // TODO: Replace with actual API call
       // const bookingData = { ...form, userId: user?.id };
       // await createBooking(bookingData);
-      
+
       await new Promise((resolve) => setTimeout(resolve, 2000));
       console.log("Booking submitted:", { ...form, user });
-      
+
       setStep(3);
     } catch (error) {
       alert("Failed to book appointment. Please try again.");
@@ -171,7 +171,7 @@ export default function StepConfirm() {
   };
 
   return (
-    <>
+    <div className="relative"> {/* Add this wrapper */}
       <section aria-labelledby="step2-heading">
         <h2 id="step2-heading" className="text-2xl font-bold text-gray-900 mb-6">
           Review & Confirm
@@ -233,19 +233,23 @@ export default function StepConfirm() {
         </div>
       </section>
 
-      {/* Modals */}
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        onSuccess={handleAuthSuccess}
-      />
+      {/* Modals - Portaled at document level */}
+      {showAuthModal && (
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={handleAuthSuccess}
+        />
+      )}
 
-      <PhoneModal
-        isOpen={showPhoneModal}
-        userName={user?.name || 'there'}
-        onClose={() => setShowPhoneModal(false)}
-        onSubmit={handlePhoneSubmit}
-      />
-    </>
+      {showPhoneModal && (
+        <PhoneModal
+          isOpen={showPhoneModal}
+          userName={user?.name || 'there'}
+          onClose={() => setShowPhoneModal(false)}
+          onSubmit={handlePhoneSubmit}
+        />
+      )}
+    </div>
   );
 }

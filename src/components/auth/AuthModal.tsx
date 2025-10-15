@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 
 type AuthUserData = {
   id: string;
@@ -22,23 +23,23 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
   const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [mounted, setMounted] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isOpen || !mounted) return null;
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     try {
-      // TODO: Replace with actual Google OAuth
-      // const result = await signIn('google');
-      
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Mock user data - replace with actual OAuth response
       onSuccess({
         id: 'user123',
         name: 'John Doe',
         email: 'john@gmail.com',
-        phone: null, // Google doesn't provide phone
+        phone: null,
         authMethod: 'google'
       });
     } catch (err) {
@@ -51,7 +52,6 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
   const handleEmailAuth = async () => {
     setError('');
     
-    // Validation
     if (mode === 'register' && !name.trim()) {
       setError('Please enter your name');
       return;
@@ -67,13 +67,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
 
     setIsLoading(true);
     try {
-      // TODO: Replace with actual API call
-      // const result = mode === 'login' 
-      //   ? await signIn('credentials', { email, password })
-      //   : await registerUser({ name, email, password });
-      
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
       onSuccess({
         id: 'user456',
         name: mode === 'register' ? name : 'John Doe',
@@ -95,12 +89,18 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
     setError('');
   };
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-2xl max-w-md w-full p-6 relative max-h-[90vh] overflow-y-auto">
+  const modalContent = (
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+      onClick={onClose} // Close when clicking overlay
+    >
+      <div 
+        className="bg-white rounded-2xl max-w-md w-full p-6 relative max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking modal content
+      >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
           aria-label="Close modal"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -278,4 +278,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
       </div>
     </div>
   );
+
+  // Use portal to render at document root
+  return createPortal(modalContent, document.body);
 }
