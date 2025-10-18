@@ -6,7 +6,6 @@ import TableSection from "../components/TableSection";
 import { tableFilter } from "@/lib/hooks/tableFilter";
 import SlotModal from "../components/Modal/SlotsModal";
 
-// Slot interface
 interface Slot {
     id: number;
     serviceId: string;
@@ -15,9 +14,9 @@ interface Slot {
     startTime: string;
     endTime: string;
     doctor?: string;
+    status?: "Available" | "Booked" | "Blocked"; // NEW
 }
 
-// Mock data
 const mockSlots: Slot[] = [
     {
         id: 1,
@@ -27,6 +26,7 @@ const mockSlots: Slot[] = [
         startTime: "09:00",
         endTime: "09:30",
         doctor: "Dr. Raj Kumar",
+        status: "Available",
     },
     {
         id: 2,
@@ -36,6 +36,27 @@ const mockSlots: Slot[] = [
         startTime: "10:00",
         endTime: "10:30",
         doctor: "Dr. Lee Kok Seng",
+        status: "Booked",
+    },
+    {
+        id: 3,
+        serviceId: "S003",
+        serviceName: "Blood Test",
+        slotDate: "2025-10-18",
+        startTime: "14:00",
+        endTime: "14:30",
+        doctor: "Dr. Raj Kumar",
+        status: "Available",
+    },
+    {
+        id: 4,
+        serviceId: "S001",
+        serviceName: "Dental Check-up",
+        slotDate: "2025-10-19",
+        startTime: "11:00",
+        endTime: "11:30",
+        doctor: "Dr. Sarah Tan",
+        status: "Blocked",
     },
 ];
 
@@ -44,18 +65,34 @@ export default function SlotMgmtPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
 
-    const emptySlot: Omit<Slot, "id"> = {
-        serviceId: "",
-        serviceName: "",
-        slotDate: "",
-        startTime: "",
-        endTime: "",
-        doctor: "",
-    };
+    // Get unique doctors and services for filter options
+    const uniqueDoctors = Array.from(
+        new Set(slots.map(s => s.doctor).filter((d): d is string => Boolean(d)))
+    );
+    const uniqueServices = Array.from(new Set(slots.map(s => s.serviceName)));
 
-    const [formData, setFormData] = useState(emptySlot);
+    // Enhanced filters with custom filters
+    const filterState = tableFilter<Slot>({
+        data: slots,
+        searchFields: (slot) => [slot.serviceName, slot.doctor ?? "", slot.serviceId],
+        getDate: (slot) => slot.slotDate,
+        // NEW: Custom filters for doctor, service, and slot status
+        customFilters: {
+            doctor: {
+                getValue: (slot) => slot.doctor ?? "",
+                options: uniqueDoctors,
+            },
+            service: {
+                getValue: (slot) => slot.serviceName,
+                options: uniqueServices,
+            },
+            slotStatus: {
+                getValue: (slot) => slot.status ?? "Available",
+                options: ["Available", "Booked", "Blocked"],
+            },
+        },
+    });
 
-    // Filters
     const {
         filteredData,
         filter,
@@ -69,57 +106,37 @@ export default function SlotMgmtPage() {
         search,
         setSearch,
         resetFilters,
-    } = tableFilter<Slot>({
-        data: slots,
-        searchFields: (slot) => [slot.serviceName, slot.doctor ?? ""],
-        getDate: (slot) => slot.slotDate,
-    });
+        customFilterValues,
+        setCustomFilter,
+    } = filterState;
 
-    // Open Add/Edit Modal
     const openModal = (slot?: Slot) => {
         if (slot) {
             setSelectedSlot(slot);
-            setFormData({
-                serviceId: slot.serviceId,
-                serviceName: slot.serviceName,
-                slotDate: slot.slotDate,
-                startTime: slot.startTime,
-                endTime: slot.endTime,
-                doctor: slot.doctor || "",
-            });
         } else {
             setSelectedSlot(null);
-            setFormData(emptySlot);
         }
         setIsModalOpen(true);
     };
 
-    // Save Slot
-    const handleSave = () => {
-        if (!formData.serviceId || !formData.serviceName || !formData.slotDate)
-            return alert("Please fill all required fields.");
-
+    const handleSave = (data: any) => {
         if (selectedSlot) {
-            // Update existing
             setSlots((prev) =>
                 prev.map((slot) =>
-                    slot.id === selectedSlot.id ? { ...slot, ...formData } : slot
+                    slot.id === selectedSlot.id ? { ...slot, ...data } : slot
                 )
             );
         } else {
-            // Add new
             const newSlot: Slot = {
                 id: slots.length ? Math.max(...slots.map((s) => s.id)) + 1 : 1,
-                ...formData,
+                ...data,
             };
             setSlots((prev) => [...prev, newSlot]);
         }
-
         setIsModalOpen(false);
         setSelectedSlot(null);
     };
 
-    // Delete Slot
     const handleDelete = (id: number) => {
         if (confirm("Are you sure you want to delete this slot?")) {
             setSlots((prev) => prev.filter((s) => s.id !== id));
@@ -135,9 +152,29 @@ export default function SlotMgmtPage() {
                     { key: "serviceId", label: "Service ID" },
                     { key: "serviceName", label: "Service Name" },
                     { key: "slotDate", label: "Slot Date" },
-                    { key: "startTime", label: "Start Time" },
-                    { key: "endTime", label: "End Time" },
+                    { 
+                        key: "startTime", 
+                        label: "Time Slot",
+                        render: (slot) => `${slot.startTime} - ${slot.endTime}`
+                    },
                     { key: "doctor", label: "Assigned Doctor" },
+                    {
+                        key: "status",
+                        label: "Status",
+                        render: (slot) => (
+                            <span
+                                className={`px-2 py-1 text-xs font-medium rounded-full ${
+                                    slot.status === "Available"
+                                        ? "bg-green-100 text-green-700"
+                                        : slot.status === "Booked"
+                                        ? "bg-blue-100 text-blue-700"
+                                        : "bg-red-100 text-red-700"
+                                }`}
+                            >
+                                {slot.status}
+                            </span>
+                        ),
+                    },
                 ]}
                 actions={(row) => (
                     <div className="flex justify-end gap-2">
@@ -167,21 +204,36 @@ export default function SlotMgmtPage() {
                     search,
                     setSearch,
                     resetFilters,
+                    customFilterValues,
+                    setCustomFilter,
+                }}
+                // NEW: Custom filter UI configuration
+                customFilters={{
+                    doctor: {
+                        label: "Doctor",
+                        options: uniqueDoctors,
+                    },
+                    service: {
+                        label: "Service Type",
+                        options: uniqueServices,
+                    },
+                    slotStatus: {
+                        label: "Slot Status",
+                        options: ["Available", "Booked", "Blocked"],
+                    },
                 }}
                 showDateFilter
-                showStatusFilter={false}
+                badgeOptions={[]} // No badge filter needed for slots
                 onAdd={() => openModal()}
                 addLabel="Add Slot"
             />
 
-            {/* Modal for Add/Edit Slot */}
             <SlotModal
                 isOpen={isModalOpen}
                 initialData={selectedSlot}
                 onSave={handleSave}
                 onClose={() => setIsModalOpen(false)}
             />
-
         </>
     );
 }

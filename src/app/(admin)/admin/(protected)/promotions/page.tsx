@@ -1,32 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { Filter, Search, Plus, Edit, Trash, Eye, Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-import { format, isAfter, parseISO, isWithinInterval } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { Promotion } from "@/types/promotion";
 import { tableFilter } from "@/lib/hooks/tableFilter";
 import TableSection from "../components/TableSection";
 import PromotionModal from "../components/Modal/PromotionModal";
 
-const DatePickerWrapper = dynamic(
-  () => import("react-datepicker").then((mod) => {
-    const DatePicker = mod.default;
-    return ({ value, onChange, ...props }: any) => (
-      <DatePicker
-        selected={value?.[0]}
-        startDate={value?.[0]}
-        endDate={value?.[1]}
-        onChange={onChange}
-        {...props}
-      />
-    );
-  }),
-  { ssr: false }
-);
-
-// Mock data
 const initialPromotions: Promotion[] = [
   {
     id: 1,
@@ -61,9 +43,19 @@ const initialPromotions: Promotion[] = [
     buttonLink: "/consultation",
     badge: "New",
   },
+  {
+    id: 4,
+    image: "/images/klinik-mekar-outside.jpg",
+    title: "Senior Citizen Health Package",
+    description: "Special health screening package for seniors aged 60+",
+    discount: "40% OFF",
+    validUntil: "2025-11-15",
+    buttonText: "Book Now",
+    buttonLink: "/senior-package",
+    badge: "Popular",
+  },
 ];
 
-// Interface for form data when adding/editing promotions
 interface PromotionFormData {
   title: string;
   description: string;
@@ -76,60 +68,41 @@ interface PromotionFormData {
 }
 
 export default function PromotionsPage() {
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [formData, setFormData] = useState<PromotionFormData>({
-    title: "",
-    description: "",
-    discount: "",
-    validUntil: format(new Date(), "yyyy-MM-dd"),
-    buttonText: "",
-    buttonLink: "",
-    badge: "",
-    image: "",
-  });
-  const [editId, setEditId] = useState<number | null>(null);
-
-
-  // Handle form submission for add/edit
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (editId) {
-      // Update promotion
-      setPromotions(
-        promotions.map((p) =>
-          p.id === editId ? { ...p, ...formData, id: editId } : p
-        )
-      );
-    } else {
-      // Add new promotion
-      const newPromotion: Promotion = {
-        ...formData,
-        id: promotions.length + 1,
-      };
-      setPromotions([...promotions, newPromotion]);
-    }
-    setIsFormOpen(false);
-    resetForm();
-  };
-
-  // Reset form data
-  const resetForm = () => {
-    setFormData({
-      title: "",
-      description: "",
-      discount: "",
-      validUntil: format(new Date(), "yyyy-MM-dd"),
-      buttonText: "",
-      buttonLink: "",
-      badge: "",
-      image: "",
-    });
-    setEditId(null);
-  };
-
   const [promotions, setPromotions] = useState<Promotion[]>(initialPromotions);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPromo, setSelectedPromo] = useState<Promotion | null>(null);
+
+  // Get unique discount types for filter
+  const uniqueDiscountTypes = Array.from(
+    new Set(
+      promotions.map((p) => {
+        if (p.discount.includes("%")) return "Percentage";
+        if (p.discount.includes("FREE")) return "Free";
+        return "Other";
+      })
+    )
+  );
+
+  const filterState = tableFilter<Promotion>({
+    data: promotions,
+    searchFields: (p) => [p.title, p.description, p.badge, p.discount],
+    getDate: (p) => p.validUntil,
+    getBadge: (p) => p.badge,
+    customFilters: {
+      promoType: {
+        getValue: (p) => p.badge,
+        options: ["Popular", "New", "Limited Time"],
+      },
+      discountType: {
+        getValue: (p) => {
+          if (p.discount.includes("%")) return "Percentage";
+          if (p.discount.includes("FREE")) return "Free";
+          return "Other";
+        },
+        options: uniqueDiscountTypes,
+      },
+    },
+  });
 
   const {
     filteredData,
@@ -144,12 +117,9 @@ export default function PromotionsPage() {
     search,
     setSearch,
     resetFilters,
-  } = tableFilter<Promotion>({
-    data: promotions,
-    searchFields: (p) => [p.title, p.description, p.badge],
-    getDate: (p) => p.validUntil,
-    getBadge: (p) => p.badge,
-  });
+    customFilterValues,
+    setCustomFilter,
+  } = filterState;
 
   const handleDelete = (id: number) => {
     if (confirm("Are you sure you want to delete this promotion?")) {
@@ -159,14 +129,12 @@ export default function PromotionsPage() {
 
   const handleSave = (data: PromotionFormData) => {
     if (selectedPromo) {
-      // Update existing promotion
       setPromotions((prev) =>
         prev.map((p) =>
           p.id === selectedPromo.id ? { ...p, ...data } : p
         )
       );
     } else {
-      // Add new promotion
       const newPromo: Promotion = {
         ...data,
         id: promotions.length > 0 ? Math.max(...promotions.map((p) => p.id)) + 1 : 1,
@@ -177,7 +145,6 @@ export default function PromotionsPage() {
     setIsModalOpen(false);
     setSelectedPromo(null);
   };
-
 
   return (
     <>
@@ -191,19 +158,20 @@ export default function PromotionsPage() {
           {
             key: "validUntil",
             label: "Valid Until",
-            render: (item) => format(parseISO(item.validUntil), "yyyy-MM-dd"),
+            render: (item) => format(parseISO(item.validUntil), "MMM dd, yyyy"),
           },
           {
             key: "badge",
             label: "Badge",
             render: (item) => (
               <span
-                className={`px-2 py-1 text-xs font-medium rounded-full ${item.badge === "Popular"
-                  ? "bg-blue-100 text-blue-700"
-                  : item.badge === "New"
+                className={`px-2 py-1 text-xs font-medium rounded-full ${
+                  item.badge === "Popular"
+                    ? "bg-blue-100 text-blue-700"
+                    : item.badge === "New"
                     ? "bg-green-100 text-green-700"
                     : "bg-yellow-100 text-yellow-700"
-                  }`}
+                }`}
               >
                 {item.badge}
               </span>
@@ -247,9 +215,22 @@ export default function PromotionsPage() {
           search,
           setSearch,
           resetFilters,
+          customFilterValues,
+          setCustomFilter,
+        }}
+        customFilters={{
+          promoType: {
+            label: "Promotion Type",
+            options: ["Popular", "New", "Limited Time"],
+          },
+          discountType: {
+            label: "Discount Type",
+            options: uniqueDiscountTypes,
+          },
         }}
         showDateFilter
         showStatusFilter
+        badgeOptions={[]}
         onAdd={() => {
           setSelectedPromo(null);
           setIsModalOpen(true);
@@ -257,7 +238,6 @@ export default function PromotionsPage() {
         addLabel="Add Promotion"
       />
 
-      {/* Modal */}
       <PromotionModal
         isOpen={isModalOpen}
         initialData={selectedPromo}

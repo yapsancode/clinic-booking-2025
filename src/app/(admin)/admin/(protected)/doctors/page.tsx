@@ -44,6 +44,15 @@ const mockDoctors: Doctor[] = [
       "2025-10-18": ["10:00", "15:00"],
     },
   },
+  {
+    id: 4,
+    name: "Dr. Sarah Tan",
+    image: "/images/doctors/sarah.jpg",
+    specialty: "Dentist",
+    email: "sarah@klinikmekar.com",
+    phone: "+60 3-9876 5432",
+    unavailableSlots: {},
+  },
 ];
 
 export default function DoctorsPage() {
@@ -51,7 +60,24 @@ export default function DoctorsPage() {
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Filtering logic (using reusable tableFilter hook)
+  // Get unique specialties for filter
+  const uniqueSpecialties = Array.from(
+    new Set(doctors.map((d) => d.specialty))
+  );
+
+  // Enhanced filtering
+  const filterState = tableFilter<Doctor>({
+    data: doctors,
+    searchFields: (doc) => [doc.name, doc.email, doc.specialty, doc.phone],
+    getBadge: (doc) => doc.specialty,
+    customFilters: {
+      specialty: {
+        getValue: (doc) => doc.specialty,
+        options: uniqueSpecialties,
+      },
+    },
+  });
+
   const {
     filteredData: filteredDoctors,
     filter,
@@ -61,21 +87,16 @@ export default function DoctorsPage() {
     search,
     setSearch,
     resetFilters,
-  } = tableFilter<Doctor>({
-    data: doctors,
-    searchFields: (doc) => [doc.name, doc.email, doc.specialty],
-    getBadge: (doc) => doc.specialty,
-  });
+    customFilterValues,
+    setCustomFilter,
+  } = filterState;
 
-  // Add / Edit doctor
   const handleSaveDoctor = (doctor: Doctor | Omit<Doctor, "id">) => {
     if ("id" in doctor) {
-      // Update existing doctor
       setDoctors((prev) =>
         prev.map((d) => (d.id === doctor.id ? doctor : d))
       );
     } else {
-      // Add new doctor
       const newDoctor: Doctor = {
         ...doctor,
         id: Math.max(...doctors.map((d) => d.id)) + 1,
@@ -87,7 +108,6 @@ export default function DoctorsPage() {
     setSelectedDoctor(null);
   };
 
-  // Delete doctor
   const handleDelete = (id: number) => {
     if (confirm("Are you sure you want to delete this doctor?")) {
       setDoctors((prev) => prev.filter((d) => d.id !== id));
@@ -96,7 +116,6 @@ export default function DoctorsPage() {
 
   return (
     <div className="relative">
-      {/* Doctor Table Section */}
       <TableSection
         title="Doctors Management"
         data={filteredDoctors}
@@ -118,7 +137,15 @@ export default function DoctorsPage() {
               </div>
             ),
           },
-          { key: "specialty", label: "Specialty" },
+          { 
+            key: "specialty", 
+            label: "Specialty",
+            render: (doc) => (
+              <span className="px-2 py-1 text-xs font-medium rounded-full bg-teal-100 text-teal-700">
+                {doc.specialty}
+              </span>
+            ),
+          },
           { key: "email", label: "Email" },
           { key: "phone", label: "Phone" },
         ]}
@@ -149,13 +176,16 @@ export default function DoctorsPage() {
           search,
           setSearch,
           resetFilters,
+          customFilterValues,
+          setCustomFilter,
         }}
-        badgeOptions={[
-          "General Practitioner",
-          "Dentist",
-          "Dermatologist",
-          "Cardiologist",
-        ]}
+        customFilters={{
+          specialty: {
+            label: "Specialty",
+            options: uniqueSpecialties,
+          },
+        }}
+        badgeOptions={[]}
         showDateFilter={false}
         showStatusFilter={false}
         onAdd={() => {
@@ -165,7 +195,6 @@ export default function DoctorsPage() {
         addLabel="Add Doctor"
       />
 
-      {/* Add/Edit Modal */}
       <DoctorModal
         open={isModalOpen}
         onClose={() => {

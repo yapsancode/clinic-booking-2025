@@ -11,12 +11,28 @@ const initialServices: Service[] = [
     { id: 1, name: "General Consultation", serviceDesc: "General Consultation", deletedFlag: false },
     { id: 2, name: "Dental Cleaning", serviceDesc: "Dental Cleaning", deletedFlag: false },
     { id: 3, name: "Physiotherapy", serviceDesc: "Physiotherapy", deletedFlag: true },
+    { id: 4, name: "Blood Test", serviceDesc: "Laboratory Blood Testing", deletedFlag: false },
+    { id: 5, name: "X-Ray", serviceDesc: "X-Ray Imaging", deletedFlag: false },
+    { id: 6, name: "Vaccination", serviceDesc: "Vaccination Services", deletedFlag: true },
 ];
 
 export default function ServicesPage() {
     const [services, setServices] = useState<Service[]>(initialServices);
     const [modalOpen, setModalOpen] = useState(false);
     const [editingService, setEditingService] = useState<Service | null>(null);
+
+    const filterState = tableFilter<Service>({
+        data: services,
+        searchFields: (s) => [s.name, s.serviceDesc],
+        getBadge: (s) => (s.deletedFlag ? "Deleted" : "Active"),
+        // NEW: Custom filter for service status
+        customFilters: {
+            status: {
+                getValue: (s) => s.deletedFlag ? "Deleted" : "Active",
+                options: ["Active", "Deleted"],
+            },
+        },
+    });
 
     const {
         filteredData,
@@ -27,20 +43,16 @@ export default function ServicesPage() {
         search,
         setSearch,
         resetFilters,
-    } = tableFilter<Service>({
-        data: services,
-        searchFields: (s) => [s.name],
-        getBadge: (s) => (s.deletedFlag ? "Deleted" : "Active"),
-    });
+        customFilterValues,
+        setCustomFilter,
+    } = filterState;
 
     const handleSaveService = (service: Service | Omit<Service, "id">) => {
         if ("id" in service && service.id) {
-            // Edit existing
             setServices((prev) =>
                 prev.map((s) => (s.id === service.id ? (service as Service) : s))
             );
         } else {
-            // Add new
             const newId =
                 services.length > 0 ? Math.max(...services.map((s) => s.id)) + 1 : 1;
             setServices((prev) => [
@@ -48,12 +60,14 @@ export default function ServicesPage() {
                 { ...(service as Omit<Service, "id">), id: newId },
             ]);
         }
+        setModalOpen(false);
+        setEditingService(null);
     };
 
     const handleDelete = (id: number) => {
         if (confirm("Are you sure you want to delete this service?")) {
             setServices((prev) =>
-                prev.map((s) => (s.id === id ? { ...s, deleted: true } : s))
+                prev.map((s) => (s.id === id ? { ...s, deletedFlag: true } : s))
             );
         }
     };
@@ -68,14 +82,15 @@ export default function ServicesPage() {
                     { key: "name", label: "Service Name" },
                     { key: "serviceDesc", label: "Service Description" },
                     {
-                        key: "deleted",
+                        key: "deletedFlag",
                         label: "Status",
                         render: (item) => (
                             <span
-                                className={`px-2 py-1 text-xs font-medium rounded-full ${item.deletedFlag
-                                    ? "bg-red-100 text-red-700"
-                                    : "bg-green-100 text-green-700"
-                                    }`}
+                                className={`px-2 py-1 text-xs font-medium rounded-full ${
+                                    item.deletedFlag
+                                        ? "bg-red-100 text-red-700"
+                                        : "bg-green-100 text-green-700"
+                                }`}
                             >
                                 {item.deletedFlag ? "Deleted" : "Active"}
                             </span>
@@ -96,6 +111,7 @@ export default function ServicesPage() {
                         <button
                             onClick={() => handleDelete(item.id)}
                             className="text-red-500 hover:text-red-600"
+                            disabled={item.deletedFlag}
                         >
                             <Trash2 className="w-4 h-4" />
                         </button>
@@ -109,9 +125,18 @@ export default function ServicesPage() {
                     search,
                     setSearch,
                     resetFilters,
+                    customFilterValues,
+                    setCustomFilter,
+                }}
+                customFilters={{
+                    status: {
+                        label: "Service Status",
+                        options: ["Active", "Deleted"],
+                    },
                 }}
                 showDateFilter={false}
-                showStatusFilter={true}
+                showStatusFilter={false}
+                badgeOptions={[]}
                 onAdd={() => {
                     setEditingService(null);
                     setModalOpen(true);
@@ -119,7 +144,6 @@ export default function ServicesPage() {
                 addLabel="Add Service"
             />
 
-            {/* Add/Edit Modal */}
             <ServiceModal
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}

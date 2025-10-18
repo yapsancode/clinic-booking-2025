@@ -22,7 +22,6 @@ const DatePickerWrapper = dynamic(
 );
 
 interface TableFilterPanelProps {
-    /** Core filter state from the hook */
     filterState: {
         filter: string;
         setFilter: (v: string) => void;
@@ -35,22 +34,29 @@ interface TableFilterPanelProps {
         search: string;
         setSearch: (v: string) => void;
         resetFilters: () => void;
+        // NEW: Custom filters
+        customFilterValues?: Record<string, string>;
+        setCustomFilter?: (key: string, value: string) => void;
     };
 
     badgeOptions?: string[];
     showDateFilter?: boolean;
     showStatusFilter?: boolean;
+    // NEW: Custom filter definitions
+    customFilters?: {
+        [key: string]: {
+            label: string;
+            options: string[];
+        };
+    };
 }
 
-
-/**
- * Generic, reusable filter + search panel for data tables.
- */
 export default function TableFilterPanel({
     filterState,
     badgeOptions = ["Popular", "New", "Limited Time"],
     showDateFilter = true,
     showStatusFilter = true,
+    customFilters = {},
 }: TableFilterPanelProps) {
     const {
         filter,
@@ -64,6 +70,8 @@ export default function TableFilterPanel({
         search,
         setSearch,
         resetFilters,
+        customFilterValues = {},
+        setCustomFilter,
     } = filterState;
 
     const [isFilterOpen, setIsFilterOpen] = React.useState(false);
@@ -109,10 +117,11 @@ export default function TableFilterPanel({
                                             <button
                                                 key={status}
                                                 onClick={() => setFilter(status)}
-                                                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${filter === status
-                                                    ? "bg-teal-500 text-white"
-                                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                                                    }`}
+                                                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
+                                                    filter === status
+                                                        ? "bg-teal-500 text-white"
+                                                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                                }`}
                                             >
                                                 {status}
                                             </button>
@@ -122,25 +131,52 @@ export default function TableFilterPanel({
                             )}
 
                             {/* Badge Filter */}
-                            <div className="mb-4">
-                                <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
-                                    Badge
-                                </h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {["All", ...badgeOptions].map((badge) => (
-                                        <button
-                                            key={badge}
-                                            onClick={() => setBadgeFilter(badge)}
-                                            className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${badgeFilter === badge
-                                                ? "bg-teal-500 text-white"
-                                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                            {badgeOptions.length > 0 && (
+                                <div className="mb-4">
+                                    <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                                        Badge
+                                    </h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {["All", ...badgeOptions].map((badge) => (
+                                            <button
+                                                key={badge}
+                                                onClick={() => setBadgeFilter(badge)}
+                                                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
+                                                    badgeFilter === badge
+                                                        ? "bg-teal-500 text-white"
+                                                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                                                 }`}
-                                        >
-                                            {badge}
-                                        </button>
-                                    ))}
+                                            >
+                                                {badge}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
+                            )}
+
+                            {/* NEW: Custom Filters */}
+                            {Object.entries(customFilters).map(([key, config]) => (
+                                <div key={key} className="mb-4">
+                                    <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                                        {config.label}
+                                    </h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {["All", ...config.options].map((option) => (
+                                            <button
+                                                key={option}
+                                                onClick={() => setCustomFilter?.(key, option)}
+                                                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
+                                                    customFilterValues[key] === option
+                                                        ? "bg-teal-500 text-white"
+                                                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                                }`}
+                                            >
+                                                {option}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
 
                             {/* Date Range Filter */}
                             {showDateFilter && (
@@ -153,10 +189,11 @@ export default function TableFilterPanel({
                                             <button
                                                 key={option}
                                                 onClick={() => setDateFilter?.(option)}
-                                                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${dateFilter === option
-                                                    ? "bg-teal-500 text-white"
-                                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                                                    }`}
+                                                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
+                                                    dateFilter === option
+                                                        ? "bg-teal-500 text-white"
+                                                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                                }`}
                                             >
                                                 {option}
                                             </button>

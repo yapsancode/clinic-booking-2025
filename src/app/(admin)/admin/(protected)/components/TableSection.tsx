@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import TableFilterPanel from "./TableFilterPanel";
 import TableDisplay from "./TableDisplay";
@@ -15,7 +14,6 @@ interface TableSectionProps<T> {
     }[];
     data: T[];
     actions?: (item: T) => React.ReactNode;
-
     /** Props passed to the filter panel */
     filterState: {
         filter: string;
@@ -29,16 +27,24 @@ interface TableSectionProps<T> {
         search: string;
         setSearch: (v: string) => void;
         resetFilters: () => void;
+        // NEW: Custom filter support
+        customFilterValues?: Record<string, string>;
+        setCustomFilter?: (key: string, value: string) => void;
     };
-
     badgeOptions?: string[];
     showDateFilter?: boolean;
     showStatusFilter?: boolean;
     emptyMessage?: string;
-
     /** Optional Add button */
     onAdd?: () => void;
     addLabel?: string;
+    // NEW: Custom filter definitions
+    customFilters?: {
+        [key: string]: {
+            label: string;
+            options: string[];
+        };
+    };
 }
 
 export default function TableSection<T>({
@@ -53,6 +59,7 @@ export default function TableSection<T>({
     emptyMessage = "No records found.",
     onAdd,
     addLabel = "Add New",
+    customFilters,
 }: TableSectionProps<T>) {
     return (
         <div className="relative">
@@ -60,7 +67,6 @@ export default function TableSection<T>({
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
             </div>
-
             {/* Filter Panel and Add Button */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
                 <div className="w-full sm:w-auto flex-grow">
@@ -69,6 +75,7 @@ export default function TableSection<T>({
                         badgeOptions={badgeOptions}
                         showDateFilter={showDateFilter}
                         showStatusFilter={showStatusFilter}
+                        customFilters={customFilters}
                     />
                 </div>
                 {onAdd && (
@@ -81,7 +88,6 @@ export default function TableSection<T>({
                     </button>
                 )}
             </div>
-
             {/* Table */}
             <TableDisplay
                 columns={columns}

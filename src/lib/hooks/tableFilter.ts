@@ -4,17 +4,23 @@ import { useState, useMemo } from "react";
 import { isAfter, parseISO, isWithinInterval } from "date-fns";
 
 export interface TableFilterOptions<T> {
-    /** The full dataset (e.g. promotions, products, etc.) */
+    /** The full dataset */
     data: T[];
-    /** Optional function to define how search is performed */
+    /** Search fields */
     searchFields?: (item: T) => string[];
-    /** Optional function to define how to parse date */
+    /** Date parsing */
     getDate?: (item: T) => string | null;
-    /** Optional function to define how to read a badge-like field */
+    /** Badge field */
     getBadge?: (item: T) => string | null;
+    /** NEW: Custom filter function */
+    customFilters?: {
+        [key: string]: {
+            getValue: (item: T) => any;
+            options?: string[];
+        };
+    };
 }
 
-/** Hook return type */
 export interface TableFilter<T> {
     filteredData: T[];
     filter: string;
@@ -28,27 +34,28 @@ export interface TableFilter<T> {
     search: string;
     setSearch: (val: string) => void;
     resetFilters: () => void;
+    // NEW: Dynamic custom filters
+    customFilterValues: Record<string, string>;
+    setCustomFilter: (key: string, value: string) => void;
 }
 
-/**
- * A global reusable filtering hook that can work with any dataset.
- * It handles:
- *  - Status filter (Active/Expired/All)
- *  - Badge filter
- *  - Date range filter
- *  - Text search
- */
 export function tableFilter<T>({
     data,
     searchFields,
     getDate,
     getBadge,
+    customFilters = {},
 }: TableFilterOptions<T>): TableFilter<T> {
     const [filter, setFilter] = useState("All");
     const [badgeFilter, setBadgeFilter] = useState("All");
     const [dateFilter, setDateFilter] = useState("All");
     const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
     const [search, setSearch] = useState("");
+    
+    // NEW: Dynamic custom filter state
+    const [customFilterValues, setCustomFilterValues] = useState<Record<string, string>>(
+        Object.keys(customFilters).reduce((acc, key) => ({ ...acc, [key]: "All" }), {})
+    );
 
     const [startDate, endDate] = dateRange;
 
@@ -80,6 +87,16 @@ export function tableFilter<T>({
                 return isWithinInterval(date, { start: startDate, end: endDate });
             })
             .filter((item) => {
+                // NEW: Custom filters
+                return Object.entries(customFilterValues).every(([key, value]) => {
+                    if (value === "All") return true;
+                    const filterConfig = customFilters[key];
+                    if (!filterConfig) return true;
+                    const itemValue = filterConfig.getValue(item);
+                    return itemValue === value;
+                });
+            })
+            .filter((item) => {
                 // Search filter
                 if (!search.trim() || !searchFields) return true;
                 const searchValue = search.toLowerCase();
@@ -87,7 +104,11 @@ export function tableFilter<T>({
                     field.toLowerCase().includes(searchValue)
                 );
             });
-    }, [data, filter, badgeFilter, dateFilter, startDate, endDate, search]);
+    }, [data, filter, badgeFilter, dateFilter, startDate, endDate, search, customFilterValues]);
+
+    const setCustomFilter = (key: string, value: string) => {
+        setCustomFilterValues(prev => ({ ...prev, [key]: value }));
+    };
 
     const resetFilters = () => {
         setFilter("All");
@@ -95,8 +116,10 @@ export function tableFilter<T>({
         setDateFilter("All");
         setDateRange([null, null]);
         setSearch("");
+        setCustomFilterValues(
+            Object.keys(customFilters).reduce((acc, key) => ({ ...acc, [key]: "All" }), {})
+        );
     };
-
 
     return {
         filteredData,
@@ -111,5 +134,7 @@ export function tableFilter<T>({
         search,
         setSearch,
         resetFilters,
+        customFilterValues,
+        setCustomFilter,
     };
 }
