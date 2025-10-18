@@ -33,10 +33,16 @@ export default function HeroSection({ isVisible }: HeroSectionProps) {
             <br />
             <span className="text-gray-800">Our Priority at</span>
             <br />
-            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent inline-block hover:scale-105 transition-transform duration-300 relative">
-              Klinik Mekar
-              <span className="absolute -right-8 top-0 text-emerald-500 animate-pulse">✚</span>
+            <span className="flex justify-center items-center bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">
+              <span>Klinik Mekar</span>
+              <span className="inline-flex items-center translate-y-1 ml-5 px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-2xl font-bold rounded-lg shadow-xl">
+                24 Hours
+              </span>
             </span>
+
+
+
+
           </h1>
 
           <p className={`text-xl lg:text-2xl text-gray-700 mb-10 leading-relaxed transition-all duration-1000 delay-200 max-w-3xl mx-auto ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
