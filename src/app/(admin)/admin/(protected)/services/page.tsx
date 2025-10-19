@@ -1,34 +1,47 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { tableFilter } from "@/lib/hooks/tableFilter";
 import { Pencil, Trash2 } from "lucide-react";
 import ServiceModal from "../components/Modal/ServiceModal";
 import TableSection from "../components/TableSection";
 import { Service } from "@/types/services";
-
-const initialServices: Service[] = [
-    { id: 1, name: "General Consultation", serviceDesc: "General Consultation", deletedFlag: false },
-    { id: 2, name: "Dental Cleaning", serviceDesc: "Dental Cleaning", deletedFlag: false },
-    { id: 3, name: "Physiotherapy", serviceDesc: "Physiotherapy", deletedFlag: true },
-    { id: 4, name: "Blood Test", serviceDesc: "Laboratory Blood Testing", deletedFlag: false },
-    { id: 5, name: "X-Ray", serviceDesc: "X-Ray Imaging", deletedFlag: false },
-    { id: 6, name: "Vaccination", serviceDesc: "Vaccination Services", deletedFlag: true },
-];
+import { getSlots, createSlot, updateSlot, deleteSlot } from "@/lib/api/slotService";
 
 export default function ServicesPage() {
-    const [services, setServices] = useState<Service[]>(initialServices);
+    const [services, setServices] = useState<Service[]>([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [editingService, setEditingService] = useState<Service | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
+    useEffect(() => {
+        async function fetchServices() {
+            try {
+                setLoading(true);
+                const res = await getSlots();
+                setServices(res.data?.services || []); // ✅ unwrap array
+
+            } catch (err: any) {
+                console.error("Failed to fetch services:", err);
+                setError(err.message || "Failed to fetch services");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchServices();
+    }, []);
+
+
+    // ✅ Filters
     const filterState = tableFilter<Service>({
         data: services,
         searchFields: (s) => [s.name, s.serviceDesc],
-        getBadge: (s) => (s.deletedFlag ? "Deleted" : "Active"),
-        // NEW: Custom filter for service status
+        getBadge: (s) => (s.status ? "Deleted" : "Active"),
         customFilters: {
             status: {
-                getValue: (s) => s.deletedFlag ? "Deleted" : "Active",
+                getValue: (s) => (s.status ? "Deleted" : "Active"),
                 options: ["Active", "Deleted"],
             },
         },
@@ -47,30 +60,50 @@ export default function ServicesPage() {
         setCustomFilter,
     } = filterState;
 
-    const handleSaveService = (service: Service | Omit<Service, "id">) => {
-        if ("id" in service && service.id) {
-            setServices((prev) =>
-                prev.map((s) => (s.id === service.id ? (service as Service) : s))
-            );
-        } else {
-            const newId =
-                services.length > 0 ? Math.max(...services.map((s) => s.id)) + 1 : 1;
-            setServices((prev) => [
-                ...prev,
-                { ...(service as Omit<Service, "id">), id: newId },
-            ]);
+    // ✅ Handle Create or Update
+    const handleSaveService = async (service: Service | Omit<Service, "id">) => {
+        try {
+            if ("id" in service && service.id) {
+                const updated = await updateSlot(service.id, service);
+                setServices((prev) =>
+                    prev.map((s) => (s.id === updated.id ? updated : s))
+                );
+            } else {
+                const created = await createSlot(service);
+                setServices((prev) => [...prev, created]);
+            }
+            setModalOpen(false);
+            setEditingService(null);
+        } catch (err: any) {
+            alert(`Error saving service: ${err.message}`);
         }
-        setModalOpen(false);
-        setEditingService(null);
     };
 
-    const handleDelete = (id: number) => {
-        if (confirm("Are you sure you want to delete this service?")) {
+    // ✅ Handle Delete
+    const handleDelete = async (id: number) => {
+        if (!confirm("Are you sure you want to delete this service?")) return;
+
+        try {
+            await deleteSlot(id);
             setServices((prev) =>
-                prev.map((s) => (s.id === id ? { ...s, deletedFlag: true } : s))
+                prev.map((s) => (s.id === id ? { ...s, status: true } : s))
             );
+        } catch (err: any) {
+            alert(`Error deleting service: ${err.message}`);
         }
     };
+
+    if (loading) {
+        return <p className="text-center mt-10 text-gray-500">Loading services...</p>;
+    }
+
+    if (error) {
+        return (
+            <p className="text-center mt-10 text-red-500">
+                Failed to load services: {error}
+            </p>
+        );
+    }
 
     return (
         <>
@@ -80,19 +113,18 @@ export default function ServicesPage() {
                 columns={[
                     { key: "id", label: "ID" },
                     { key: "name", label: "Service Name" },
-                    { key: "serviceDesc", label: "Service Description" },
+                    { key: "status", label: "Service Description" },
                     {
-                        key: "deletedFlag",
+                        key: "status",
                         label: "Status",
                         render: (item) => (
                             <span
-                                className={`px-2 py-1 text-xs font-medium rounded-full ${
-                                    item.deletedFlag
-                                        ? "bg-red-100 text-red-700"
-                                        : "bg-green-100 text-green-700"
-                                }`}
+                                className={`px-2 py-1 text-xs font-medium rounded-full ${item.status
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-red-100 text-red-700"
+                                    }`}
                             >
-                                {item.deletedFlag ? "Deleted" : "Active"}
+                                {item.status ? "Active" : "Inactive"}
                             </span>
                         ),
                     },
@@ -111,7 +143,7 @@ export default function ServicesPage() {
                         <button
                             onClick={() => handleDelete(item.id)}
                             className="text-red-500 hover:text-red-600"
-                            disabled={item.deletedFlag}
+                            disabled={item.status}
                         >
                             <Trash2 className="w-4 h-4" />
                         </button>

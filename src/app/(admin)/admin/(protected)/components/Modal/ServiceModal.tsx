@@ -35,13 +35,20 @@ export default function ServiceModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({
-      id: initialData?.id,
+
+    const serviceData = {
       name,
-      deletedFlag: false,
-    });
+      deletedFlag: deleted,
+    } as Omit<Service, "id"> | Service;
+
+    if (initialData?.id) {
+      (serviceData as Service).id = initialData.id;
+    }
+
+    onSave(serviceData);
     onClose();
   };
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">

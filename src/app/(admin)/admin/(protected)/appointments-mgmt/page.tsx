@@ -5,6 +5,7 @@ import { Edit, Trash } from "lucide-react";
 import TableSection from "../components/TableSection";
 import { tableFilter } from "@/lib/hooks/tableFilter";
 import SlotModal from "../components/Modal/SlotsModal";
+import { getSlots, createSlot, updateSlot, deleteSlot } from "@/lib/api/slotService";
 
 interface Slot {
     id: number;
@@ -61,6 +62,8 @@ const mockSlots: Slot[] = [
 ];
 
 export default function SlotMgmtPage() {
+
+    
     const [slots, setSlots] = useState<Slot[]>(mockSlots);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);

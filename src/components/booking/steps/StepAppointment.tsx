@@ -1,7 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useBooking } from "@/context/BookingContext";
 import Image from "next/image";
+import { Service } from "@/types/services";
+import { fetchServices } from "@/lib/api/service";
 
 // Mock data for available time slots by date
 const mockAvailableSlots = {
@@ -124,10 +126,10 @@ const Calendar = ({ selectedDate, onDateSelect, availableDates }: CalendarProps)
               onClick={() => available && onDateSelect(formatDate(day))}
               disabled={!available}
               className={`p-2 text-sm rounded-lg transition-all duration-200 ${selected
-                  ? "bg-teal-500 text-white font-semibold"
-                  : available
-                    ? "hover:bg-teal-100 text-gray-700"
-                    : "text-gray-300 cursor-not-allowed"
+                ? "bg-teal-500 text-white font-semibold"
+                : available
+                  ? "hover:bg-teal-100 text-gray-700"
+                  : "text-gray-300 cursor-not-allowed"
                 }`}
               aria-label={`${available ? 'Select' : 'Unavailable'} ${monthNames[currentMonth]} ${day}, ${currentYear}`}
             >
@@ -179,10 +181,10 @@ const TimeSlots = ({ selectedDate, selectedTime, onTimeSelect }: TimeSlotsProps)
             onClick={() => !isBooked && onTimeSelect(time)}
             disabled={isBooked}
             className={`p-3 rounded-lg border-2 text-sm font-medium transition-all duration-200 ${isSelected
-                ? "bg-teal-500 text-white border-teal-500"
-                : isBooked
-                  ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
-                  : "bg-white text-gray-700 border-gray-200 hover:border-teal-300 hover:bg-teal-50"
+              ? "bg-teal-500 text-white border-teal-500"
+              : isBooked
+                ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
+                : "bg-white text-gray-700 border-gray-200 hover:border-teal-300 hover:bg-teal-50"
               }`}
             aria-label={`${isBooked ? 'Unavailable' : isSelected ? 'Selected' : 'Available'} time slot at ${time}`}
           >
@@ -225,10 +227,10 @@ const DoctorSelection = ({ selectedDoctor, onDoctorSelect, selectedDate, selecte
             onClick={() => isAvailable && onDoctorSelect(doctor.id)}
             disabled={!isAvailable}
             className={`text-left border-2 rounded-xl p-4 transition-all duration-200 ${!isAvailable
-                ? "border-gray-200 bg-gray-50 cursor-not-allowed opacity-60"
-                : isSelected
-                  ? "border-teal-500 bg-teal-50"
-                  : "border-gray-200 bg-white hover:border-teal-300 hover:bg-teal-50"
+              ? "border-gray-200 bg-gray-50 cursor-not-allowed opacity-60"
+              : isSelected
+                ? "border-teal-500 bg-teal-50"
+                : "border-gray-200 bg-white hover:border-teal-300 hover:bg-teal-50"
               }`}
           >
             <div className="flex flex-col items-center text-center gap-3">
@@ -270,6 +272,26 @@ const DoctorSelection = ({ selectedDoctor, onDoctorSelect, selectedDate, selecte
 };
 
 export default function StepAppointment() {
+  const [services, setServices] = useState<Service[]>([]);
+  const [loadingServices, setLoadingServices] = useState(true);
+  const [serviceError, setServiceError] = useState<string | null>(null);
+
+  useEffect(() => {
+  const loadServices = async () => {
+    try {
+      const services = await fetchServices();
+      setServices(services);
+    } catch (err: any) {
+      console.error(err);
+      setServiceError("Unable to load services. Please try again later.");
+    } finally {
+      setLoadingServices(false);
+    }
+  };
+
+  loadServices();
+}, []);
+
   const { form, setForm, setStep } = useBooking();
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -325,7 +347,6 @@ export default function StepAppointment() {
   return (
     <section aria-labelledby="step1-heading">
       <h2 id="step1-heading" className="sr-only">Appointment Details</h2>
-
       <div className="mb-6" id="service">
         <label htmlFor="service-select" className="block text-gray-700 font-medium mb-2">
           Choose Service *
@@ -335,26 +356,30 @@ export default function StepAppointment() {
           name="service"
           value={form.service}
           onChange={handleChange}
-          className={`w-full border-2 rounded-xl px-4 py-3 bg-gray-50 focus:ring-2 focus:ring-teal-400 focus:border-teal-400 outline-none transition-all duration-300 ${errors.service ? "border-red-400" : "border-gray-200"}`}
+          className={`w-full border-2 rounded-xl px-4 py-3 bg-gray-50 focus:ring-2 focus:ring-teal-400 focus:border-teal-400 outline-none transition-all duration-300 ${errors.service ? "border-red-400" : "border-gray-200"
+            }`}
           required
-          aria-describedby={errors.service ? "service-error" : undefined}
-          aria-invalid={!!errors.service}
         >
           <option value="">Select a service</option>
-          <option value="general_consultation">General Consultation</option>
-          <option value="dental_checkup">Dental Check-up</option>
-          <option value="skin_screening">Skin Screening</option>
-          <option value="vaccination">Vaccination/Immunization</option>
-          <option value="pediatric_care">Pediatric Care</option>
-          <option value="womens_health">Women's Health Check</option>
-          <option value="mens_health">Men's Health Check</option>
-          <option value="chronic_disease_management">Chronic Disease Management</option>
-          <option value="minor_surgery">Minor Surgery</option>
-          <option value="nutritional_counseling">Nutritional Counseling</option>
-          <option value="student_enrollment_check_up">Student Enrollment Check Up</option>
+          {loadingServices ? (
+            <option disabled>Loading services...</option>
+          ) : serviceError ? (
+            <option disabled>{serviceError}</option>
+          ) : (
+            services.map((service) => (
+              <option key={service.noID} value={service.id}>
+                {service.name}
+              </option>
+            ))
+          )}
         </select>
-        {errors.service && <p id="service-error" className="text-red-400 text-sm mt-2" role="alert">{errors.service}</p>}
+        {errors.service && (
+          <p id="service-error" className="text-red-400 text-sm mt-2" role="alert">
+            {errors.service}
+          </p>
+        )}
       </div>
+
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div id="date">
