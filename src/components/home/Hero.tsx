@@ -1,3 +1,5 @@
+import WhatsAppButton from "../layout/WhatsAppButton";
+
 interface HeroSectionProps {
   isVisible: boolean;
 }
@@ -54,7 +56,7 @@ export default function HeroSection({ isVisible }: HeroSectionProps) {
           <div className={`flex flex-wrap justify-center gap-6 mb-10 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <div className="flex items-center bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full border border-red-200">
               <div className="w-2 h-2 bg-red-500 rounded-full mr-2 animate-pulse"></div>
-              <span className="text-gray-700 font-medium">24/7 Online Booking</span>
+              <span className="text-gray-700 font-medium">24/7 Booking</span>
             </div>
             <div className="flex items-center bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full border border-blue-200">
               <div className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
@@ -67,14 +69,23 @@ export default function HeroSection({ isVisible }: HeroSectionProps) {
           </div>
 
           <div className={`flex flex-col sm:flex-row gap-6 justify-center items-center transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <a href="/book-appointment" className="group relative inline-flex items-center px-10 py-5 bg-gradient-to-r from-red-600 via-red-700 to-pink-600 hover:from-red-700 hover:via-red-800 hover:to-pink-700 text-white font-bold text-lg rounded-2xl transition-all duration-300 shadow-2xl hover:shadow-red-500/25 transform hover:scale-110 hover:-translate-y-2 overflow-hidden">
+            {/* <a href="/book-appointment" className="group relative inline-flex items-center px-10 py-5 bg-gradient-to-r from-red-600 via-red-700 to-pink-600 hover:from-red-700 hover:via-red-800 hover:to-pink-700 text-white font-bold text-lg rounded-2xl transition-all duration-300 shadow-2xl hover:shadow-red-500/25 transform hover:scale-110 hover:-translate-y-2 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <svg className="w-6 h-6 mr-3 transition-transform duration-300 group-hover:rotate-12 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <span className="relative z-10">Book Appointment</span>
               <div className="absolute inset-0 rounded-2xl ring-4 ring-red-300/50 scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-            </a>
+            </a> */}
+            <WhatsAppButton
+              label="Book Appointment"
+              showArrow
+              iconColor="text-white"
+              className="px-10 py-5 bg-gradient-to-r from-green-600 via-green-700 to-emerald-600 hover:from-green-700 hover:via-green-800 hover:to-emerald-700 text-lg font-bold rounded-2xl shadow-2xl hover:shadow-green-500/25 transform hover:scale-110 hover:-translate-y-2 text-white"
+            />
+
+
+
 
             <a href="/doctors" className="group relative inline-flex items-center px-10 py-5 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white font-bold text-lg rounded-2xl transition-all duration-300 shadow-2xl hover:shadow-blue-500/25 transform hover:scale-110 hover:-translate-y-2 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

@@ -52,7 +52,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
+          {/* <div>
             <h3 className="font-semibold text-gray-800 mb-4">Quick Links</h3>
             <ul className="space-y-3">
               <li>
@@ -76,10 +76,10 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Legal & Support */}
-          <div>
+          {/* <div>
             <h3 className="font-semibold text-gray-800 mb-4">Support</h3>
             <ul className="space-y-3">
               <li>
@@ -103,7 +103,7 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom Bar */}
@@ -112,12 +112,12 @@ export default function Footer() {
             <p className="text-gray-500 text-sm">
               &copy; {new Date().getFullYear()} Klinik Mekar. All rights reserved.
             </p>
-            <a
+            {/* <a
               href="/admin/login"
               className="bg-teal-600 text-white text-xs px-3 py-1 rounded-lg shadow hover:bg-teal-700 transition"
             >
               Admin Login
-            </a>
+            </a> */}
           </div>
           <div className="flex items-center space-x-4 mt-4 md:mt-0 text-sm text-gray-500">
             <span>📞 (555) 123-4567</span>

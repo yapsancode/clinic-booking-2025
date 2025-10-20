@@ -28,12 +28,13 @@ export default function DoctorsPage() {
                 key={doctor.id}
                 className="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-105"
               >
-                <div className="relative h-64 w-full">
+                <div className="relative h-64 w-64 mx-auto">
                   <Image
                     src={doctor.image}
                     alt={`Photo of ${doctor.name}`}
                     layout="fill"
                     objectFit="cover"
+                    objectPosition="top"
                     className="object-top"
                   />
                 </div>
@@ -47,15 +48,6 @@ export default function DoctorsPage() {
                   <p className="text-gray-600 text-sm mb-4">
                     {doctor.bio}
                   </p>
-                  {/* <Link
-                    href={`/book-appointment?doctor=${doctor.slug}`}
-                    className="inline-flex items-center px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg"
-                  >
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    Book Appointment
-                  </Link> */}
                 </div>
               </div>
             ))}
@@ -64,7 +56,7 @@ export default function DoctorsPage() {
       </section>
 
       {/* Other Staff Section (optional) */}
-      <section className="py-16 bg-gray-50">
+      {/* <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">
@@ -101,7 +93,7 @@ export default function DoctorsPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

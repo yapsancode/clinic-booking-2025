@@ -1,3 +1,5 @@
+import WhatsAppButton from "../layout/WhatsAppButton";
+
 interface CTASectionProps {
   isVisible: boolean;
 }
@@ -64,17 +66,14 @@ export default function CTASection({ isVisible }: CTASectionProps) {
           </div>
 
           <div className={`flex flex-col sm:flex-row gap-6 justify-center items-center mb-10 transition-all duration-800 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <a href="/book-appointment" className="group relative inline-flex items-center px-10 py-5 bg-white hover:bg-gray-50 text-gray-800 font-bold text-lg rounded-2xl transition-all duration-300 shadow-2xl hover:shadow-white/25 transform hover:scale-110 hover:-translate-y-2 overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-red-100/50 to-blue-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <svg className="w-6 h-6 mr-3 text-red-600 relative z-10 transition-transform duration-300 group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span className="relative z-10">Schedule Your Appointment</span>
-              <svg className="w-5 h-5 ml-3 relative z-10 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-              <div className="absolute inset-0 rounded-2xl ring-4 ring-white/50 scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-            </a>
+
+            <WhatsAppButton
+              label="Schedule Your Appointment"
+              showArrow
+              iconColor="text-red-600"
+              className="px-10 py-5 bg-white hover:bg-gray-50 text-gray-800 font-bold text-lg rounded-2xl shadow-2xl hover:shadow-white/25 transform hover:scale-110 hover:-translate-y-2"
+            />
+
 
             <a href="tel:+60123456789" className="group relative inline-flex items-center px-10 py-5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold text-lg rounded-2xl transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-emerald-500/25 transform hover:scale-105 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

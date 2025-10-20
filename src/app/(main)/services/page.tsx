@@ -1,5 +1,6 @@
 "use client";
 
+import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import BackgroundHeroLayout from "@/components/ui/BackgroundHeroLayout";
 
 export default function ServicesPage() {
@@ -144,12 +145,16 @@ export default function ServicesPage() {
       <section className="py-16 bg-gradient-to-r from-teal-600 to-blue-600 text-white text-center">
         <div className="container mx-auto px-4 lg:px-6">
           <h2 className="text-3xl font-bold mb-6">Ready to book your visit?</h2>
-          <a
-            href="/book-appointment"
+          {/* <a
             className="inline-flex items-center px-8 py-4 bg-white text-teal-700 hover:bg-gray-100 font-semibold rounded-lg transition-all duration-300 shadow-lg"
           >
             Book Appointment Now
-          </a>
+          </a> */}
+          <WhatsAppButton
+            label="Book Appointment Now"
+            className="inline-flex items-center px-8 py-4 bg-white text-teal-700 hover:bg-gray-100 font-semibold rounded-lg transition-all duration-300 shadow-lg"
+          />
+
         </div>
       </section>
     </div>

@@ -1,35 +1,27 @@
 export const doctors = [
   {
     id: 1,
-    name: "Dr. Aisyah Binti Ahmad",
+    name: "Dr. Syafiq",
     specialty: "General Practitioner",
     bio: "Dr. Aisyah is passionate about family medicine and preventative care, helping patients of all ages live healthy lives.",
-    image: "/images/doctor-aisy.jpg",
+    image: "/images/doctors/drsyafiq.png",
     slug: "dr-aisyah-ahmad",
   },
   {
     id: 2,
-    name: "Dr. Lim Wei Keong",
+    name: "Dr. Husain Ariff",
     specialty: "Pediatrician",
     bio: "With a gentle approach, Dr. Lim specializes in the health and well-being of infants, children, and adolescents.",
-    image: "/images/doctor-lim.jpg",
+    image: "/images/doctors/drhusain.png",
     slug: "dr-lim-wei-keong",
   },
   {
     id: 3,
-    name: "Dr. Suresh Kumar",
+    name: "Dr. Nusai",
     specialty: "Internal Medicine",
     bio: "Dr. Suresh has extensive experience in diagnosing and treating complex medical conditions in adults.",
-    image: "/images/doctor-suresh.jpg",
+    image: "/images/doctors/drnusai.png",
     slug: "dr-suresh-kumar",
-  },
-  {
-    id: 4,
-    name: "Dr. Fatimah Binti Hassan",
-    specialty: "Dermatologist",
-    bio: "Dr. Fatimah is an expert in skin health, providing comprehensive care for various dermatological conditions.",
-    image: "/images/doctor-fatimah.jpg",
-    slug: "dr-fatimah-hassan",
   },
 ];
 
