@@ -1,11 +1,18 @@
 "use client";
 import "../../../globals.css";
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { Shield, Lock, Mail, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { loginUser } from "@/lib/api/login";
 
 export default function AdminLoginPage() {
+  // temporary logic to hide this page
+  const isInvalid = true
+
+  if (isInvalid) {
+    notFound();
+  }
+
   const router = useRouter();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
