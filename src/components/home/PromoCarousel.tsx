@@ -10,57 +10,39 @@ import { Navigation, Autoplay, Pagination, EffectFade } from "swiper/modules";
 import Image from "next/image";
 import { useState, useRef, useMemo, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Play, Pause, ExternalLink } from "lucide-react";
-import { apiClient } from "../../lib/api";
 import { Promotion } from "../../types/promotion";
-
-const promotions = [
-  {
-    id: 1,
-    image: "/images/klinik-mekar-outside.jpg",
-    title: "Comprehensive Health Screening Package",
-    description: "Complete health check-up with modern equipment and experienced medical professionals",
-    discount: "30% OFF",
-    validUntil: "December 31, 2025",
-    buttonText: "Book Now",
-    buttonLink: "/book-screening",
-    badge: "Popular"
-  },
-  {
-    id: 2,
-    image: "/images/klinik-mekar-interior-2.jpg",
-    title: "Vaccination Campaign",
-    description: "Protect yourself and your family with our comprehensive vaccination program",
-    discount: "FREE Consultation",
-    validUntil: "November 30, 2025",
-    buttonText: "Learn More",
-    buttonLink: "/vaccination",
-    badge: "Limited Time"
-  },
-  {
-    id: 3,
-    image: "/images/klinik-mekar-patient-room.jpg",
-    title: "Specialist Consultation Discount",
-    description: "Expert medical consultation with our board-certified specialists",
-    discount: "25% OFF",
-    validUntil: "October 31, 2025",
-    buttonText: "Schedule Visit",
-    buttonLink: "/consultation",
-    badge: "New"
-  }
-];
+import { fetchPromotions } from "@/lib/api/promotions";
 
 export default function PromoCarousel() {
   const [isAutoplay, setIsAutoplay] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
+  const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
 
-  // Ensure component is mounted before rendering Swiper
+  useEffect(() => {
+    async function loadPromotions() {
+      try {
+        setLoading(true);
+        const data = await fetchPromotions();
+        setPromotions(data);
+      } catch (err: any) {
+        console.error("Failed to fetch promotions:", err);
+        setError(err.message || "Failed to fetch promotions");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadPromotions();
+  }, []);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Memoize autoplay config to prevent object recreation
   const autoplayConfig = useMemo(
     () => ({
       delay: 5000,
@@ -89,8 +71,8 @@ export default function PromoCarousel() {
     }
   };
 
-  // Don't render until mounted to avoid hydration issues
-  if (!isMounted) {
+  // Loading state
+  if (isLoading) {
     return (
       <div className="container mx-auto px-4 lg:px-6 py-12">
         <div className="text-center mb-8">
@@ -106,6 +88,23 @@ export default function PromoCarousel() {
     );
   }
 
+  // Error or empty state
+  if (error || promotions.length === 0) {
+    return (
+      <div className="container mx-auto px-4 lg:px-6 py-12">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
+            Latest Promotions
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            {error ? error : "No promotions available at the moment"}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Success state - render carousel
   return (
     <div className="container mx-auto px-4 lg:px-6 py-12">
       {/* Header Section */}
@@ -190,10 +189,15 @@ export default function PromoCarousel() {
                       </p>
 
                       {/* CTA Button */}
-                      <button className="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg group">
+                      <a
+                        href={promo.buttonLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg group"
+                      >
                         {promo.buttonText}
                         <ExternalLink className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
