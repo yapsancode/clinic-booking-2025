@@ -12,6 +12,7 @@ import { useState, useRef, useMemo, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Play, Pause, ExternalLink } from "lucide-react";
 import { Promotion } from "../../types/promotion";
 import { fetchPromotions } from "@/lib/api/promotions";
+import WhatsAppButton from "../layout/WhatsAppButton";
 
 export default function PromoCarousel() {
   const [isAutoplay, setIsAutoplay] = useState(true);
@@ -189,7 +190,7 @@ export default function PromoCarousel() {
                       </p>
 
                       {/* CTA Button */}
-                      <a
+                      {/* <a
                         href={promo.buttonLink}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -197,7 +198,11 @@ export default function PromoCarousel() {
                       >
                         {promo.buttonText}
                         <ExternalLink className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                      </a>
+                      </a> */}
+                      <WhatsAppButton
+                        label="Book Now"
+                        className="inline-flex items-center px-8 py-4 bg-white text-teal-700 hover:bg-gray-100 font-semibold rounded-lg transition-all duration-300 shadow-lg"
+                      />
                     </div>
                   </div>
                 </div>
@@ -243,11 +248,10 @@ export default function PromoCarousel() {
             <button
               key={promo.id}
               onClick={() => goToSlide(index)}
-              className={`w-16 h-10 rounded overflow-hidden border-2 transition-all duration-300 ${
-                currentSlide === index
+              className={`w-16 h-10 rounded overflow-hidden border-2 transition-all duration-300 ${currentSlide === index
                   ? "border-blue-600 shadow-lg scale-110"
                   : "border-gray-300 hover:border-gray-400"
-              }`}
+                }`}
             >
               <Image
                 src={promo.image}

@@ -4,14 +4,14 @@ interface ServicesSectionProps {
 
 const mainServices = [
   {
-    title: "General Consultation",
-    description: "Comprehensive health evaluations, preventive care, and personalized medical guidance for patients of all ages and health conditions.",
+    title: "General Medical Consultation",
+    description: "Comprehensive consultations for all general health concerns, guided by experienced doctors dedicated to your well-being.",
     price: "From RM50",
     badge: "Popular",
     badgeColor: "from-red-500 to-pink-500",
     icon: (
       <svg className="w-10 h-10 text-red-600 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
       </svg>
     ),
     colorScheme: {
@@ -26,46 +26,46 @@ const mainServices = [
     delay: "delay-400"
   },
   {
-    title: "Specialist Care",
-    description: "Expert consultation with board-certified specialists in cardiology, dermatology, orthopedics, and other medical fields.",
-    price: "From RM120",
-    badge: "Expert",
-    badgeColor: "from-blue-500 to-indigo-500",
+    title: "Health Screening & Preventive Care",
+    description: "Early detection through routine check-ups and lab tests for a healthier, longer life.",
+    price: "From RM30",
+    badge: "Essential",
+    badgeColor: "from-green-500 to-emerald-500",
     icon: (
-      <svg className="w-10 h-10 text-blue-600 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+      <svg className="w-10 h-10 text-green-600 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
     colorScheme: {
-      bgColor: "from-blue-100 to-blue-200",
-      hoverBg: "from-blue-200 to-blue-300",
-      borderColor: "border-blue-100 hover:border-blue-300",
-      shadowColor: "hover:shadow-blue-500/10",
-      textColor: "group-hover:text-blue-600",
-      linkColor: "text-blue-600 group-hover:text-blue-700",
-      gradientBg: "from-blue-50/80"
+      bgColor: "from-green-100 to-emerald-200",
+      hoverBg: "from-green-200 to-emerald-300",
+      borderColor: "border-green-100 hover:border-green-300",
+      shadowColor: "hover:shadow-green-500/10",
+      textColor: "group-hover:text-green-600",
+      linkColor: "text-green-600 group-hover:text-green-700",
+      gradientBg: "from-green-50/80"
     },
     delay: "delay-600"
   },
   {
-    title: "Laboratory Services",
-    description: "State-of-the-art diagnostic testing including blood work, imaging, and specialized tests with fast, accurate results.",
-    price: "From RM30",
-    badge: "Fast Results",
-    badgeColor: "from-emerald-500 to-teal-500",
+    title: "24/7 Emergency & First Aid",
+    description: "Round-the-clock emergency care and immediate treatment when every second counts.",
+    price: "Available Anytime",
+    badge: "24/7",
+    badgeColor: "from-blue-500 to-indigo-500",
     icon: (
-      <svg className="w-10 h-10 text-emerald-600 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+      <svg className="w-10 h-10 text-blue-600 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
     colorScheme: {
-      bgColor: "from-emerald-100 to-emerald-200",
-      hoverBg: "from-emerald-200 to-emerald-300",
-      borderColor: "border-emerald-100 hover:border-emerald-300",
-      shadowColor: "hover:shadow-emerald-500/10",
-      textColor: "group-hover:text-emerald-600",
-      linkColor: "text-emerald-600 group-hover:text-emerald-700",
-      gradientBg: "from-emerald-50/80"
+      bgColor: "from-blue-100 to-indigo-200",
+      hoverBg: "from-blue-200 to-indigo-300",
+      borderColor: "border-blue-100 hover:border-indigo-300",
+      shadowColor: "hover:shadow-indigo-500/10",
+      textColor: "group-hover:text-blue-600",
+      linkColor: "text-blue-600 group-hover:text-blue-700",
+      gradientBg: "from-blue-50/80"
     },
     delay: "delay-800"
   }
@@ -73,50 +73,51 @@ const mainServices = [
 
 const additionalServices = [
   {
-    title: "Cardiology",
-    subtitle: "Heart Health",
+    title: "Vaccination",
+    subtitle: "Child & Adult Immunization",
     icon: (
-      <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547" />
+      </svg>
+    ),
+    bgColor: "from-teal-100 to-cyan-200",
+    borderColor: "border-gray-100 hover:border-teal-200"
+  },
+  {
+    title: "Women's Health",
+    subtitle: "Antenatal & Wellness",
+    icon: (
+      <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1z" />
+      </svg>
+    ),
+    bgColor: "from-amber-100 to-orange-200",
+    borderColor: "border-gray-100 hover:border-amber-200"
+  },
+  {
+    title: "Wound Care",
+    subtitle: "Modern Dressing",
+    icon: (
+      <svg className="w-6 h-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
       </svg>
     ),
-    bgColor: "from-red-100 to-red-200",
-    borderColor: "border-gray-100 hover:border-red-200"
+    bgColor: "from-rose-100 to-pink-200",
+    borderColor: "border-gray-100 hover:border-rose-200"
   },
   {
-    title: "Dermatology",
-    subtitle: "Skin Care",
+    title: "Lab Services",
+    subtitle: "Diagnostics & Testing",
     icon: (
-      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+      <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2H9z" />
       </svg>
     ),
-    bgColor: "from-blue-100 to-blue-200",
-    borderColor: "border-gray-100 hover:border-blue-200"
-  },
-  {
-    title: "Pediatrics",
-    subtitle: "Child Care",
-    icon: (
-      <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    ),
-    bgColor: "from-emerald-100 to-emerald-200",
-    borderColor: "border-gray-100 hover:border-emerald-200"
-  },
-  {
-    title: "Orthopedics",
-    subtitle: "Bone Health",
-    icon: (
-      <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-      </svg>
-    ),
-    bgColor: "from-purple-100 to-purple-200",
-    borderColor: "border-gray-100 hover:border-purple-200"
+    bgColor: "from-indigo-100 to-blue-200",
+    borderColor: "border-gray-100 hover:border-indigo-200"
   }
 ];
+
 
 export default function ServicesSection({ isVisible }: ServicesSectionProps) {
   return (
@@ -175,7 +176,7 @@ export default function ServicesSection({ isVisible }: ServicesSectionProps) {
                 </p>
 
                 <div className="flex items-center justify-between">
-                  <div className={`flex items-center ${service.colorScheme.linkColor} font-semibold transition-colors duration-300`}>
+                  {/* <div className={`flex items-center ${service.colorScheme.linkColor} font-semibold transition-colors duration-300`}>
                     <span className="mr-2">{service.price}</span>
                   </div>
                   <div className={`inline-flex items-center ${service.colorScheme.linkColor} font-semibold transition-colors duration-300`}>
@@ -183,7 +184,7 @@ export default function ServicesSection({ isVisible }: ServicesSectionProps) {
                     <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
