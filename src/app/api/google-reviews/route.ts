@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     const placeId = process.env.NEXT_PUBLIC_GOOGLE_PLACE_ID;
-    const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY;
 
     console.log('=== API Route Debug ===');
     console.log('Place ID exists:', !!placeId);
