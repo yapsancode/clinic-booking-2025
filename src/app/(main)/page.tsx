@@ -8,6 +8,7 @@ import ServicesSection from "@/components/home/Services";
 import CTASection from "@/components/home/CTA";
 import LocationSection from "@/components/home/Location";
 import dynamic from "next/dynamic";
+import BlogPreviewSection from "@/components/home/BlogPreview";
 
 const PromoCarousel = dynamic(() => import("@/components/home/PromoCarousel"), {
   ssr: false,
@@ -20,6 +21,7 @@ export default function HomePage() {
     'features',
     'about',
     'services',
+    'blogs',
     'cta',
     'location'
   ]);
@@ -47,6 +49,11 @@ export default function HomePage() {
       {/* Our Services Section */}
       <div ref={refs.services}>
         <ServicesSection isVisible={visibleSections.services} />
+      </div>
+
+      {/* Blog / Health Articles Section */}
+      <div ref={refs.blogs}>
+        <BlogPreviewSection isVisible={visibleSections.blogs} />
       </div>
 
       {/* Call to Action */}
