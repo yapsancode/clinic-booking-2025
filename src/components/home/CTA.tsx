@@ -75,7 +75,7 @@ export default function CTASection({ isVisible }: CTASectionProps) {
             />
 
 
-            <a href="tel:+60123456789" className="group relative inline-flex items-center px-10 py-5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold text-lg rounded-2xl transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-emerald-500/25 transform hover:scale-105 overflow-hidden">
+            <a href="tel:+601169999443" className="group relative inline-flex items-center px-10 py-5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold text-lg rounded-2xl transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-emerald-500/25 transform hover:scale-105 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className="w-3 h-3 bg-white rounded-full mr-3 animate-pulse relative z-10"></div>
               <svg className="w-6 h-6 mr-3 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,7 +99,7 @@ export default function CTASection({ isVisible }: CTASectionProps) {
                 Visit Our Clinic
               </a>
 
-              <a href="mailto:info@klinikmekar.com" className="group inline-flex items-center text-white/90 hover:text-white font-medium transition-colors duration-300">
+              <a href="mailto:klinikmekarserdang@gmail.com" className="group inline-flex items-center text-white/90 hover:text-white font-medium transition-colors duration-300">
                 <svg className="w-5 h-5 mr-2 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 7.89a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>

@@ -219,8 +219,8 @@ export default function ServicesSection({ isVisible }: ServicesSectionProps) {
 
           <p className="mt-4 text-gray-600">
             <span className="font-semibold">Need help choosing?</span> Call us at
-            <a href="tel:+60123456789" className="font-semibold text-red-600 hover:text-red-700 transition-colors duration-300 ml-1">
-              +60 12-345 6789
+            <a href="tel:+601169999443" className="font-semibold text-red-600 hover:text-red-700 transition-colors duration-300 ml-1">
+              +60 11-6999 9443
             </a>
           </p>
         </div>

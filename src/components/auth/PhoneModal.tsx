@@ -71,7 +71,7 @@ export default function PhoneModal({ isOpen, onClose, onSubmit, userName }: Phon
               setError('');
             }}
             className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-teal-400 focus:border-teal-400 outline-none"
-            placeholder="+60123456789"
+            placeholder="+601169999443"
           />
           <p className="text-sm text-gray-500 mt-2">
             Include country code (e.g., +60 for Malaysia)

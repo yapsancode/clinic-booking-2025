@@ -120,8 +120,8 @@ export default function Footer() {
             </a> */}
           </div>
           <div className="flex items-center space-x-4 mt-4 md:mt-0 text-sm text-gray-500">
-            <span>📞 (555) 123-4567</span>
-            <span>✉️ info@medicareclinic.com</span>
+            <span>📞 +601169999443</span>
+            <span>✉️ klinikmekarserdang@gmail.com</span>
           </div>
         </div>
       </div>

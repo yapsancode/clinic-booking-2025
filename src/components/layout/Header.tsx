@@ -33,7 +33,7 @@ export default function Header() {
 
   const handleWhatsAppClick = () => {
     const message = encodeURIComponent("Hello! I'd like to book an appointment.");
-    const phoneNumber = '60123456789';
+    const phoneNumber = '601169999443';
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };
 
@@ -135,7 +135,7 @@ export default function Header() {
             <div className="flex items-center space-x-2 lg:space-x-3">
               {/* Emergency Call Button - Desktop */}
               <a
-                href="tel:+60123456789"
+                href="tel:+601169999443"
                 className="hidden lg:inline-flex items-center px-3 py-2 text-emerald-600 hover:text-emerald-700 font-medium rounded-lg hover:bg-emerald-50 transition-all duration-300 group"
               >
                 <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></div>
@@ -319,7 +319,7 @@ export default function Header() {
               <div className="pt-4 mt-4 border-t border-gray-200 space-y-3">
                 {/* Emergency Call */}
                 <a
-                  href="tel:+60123456789"
+                  href="tel:+601169999443"
                   className="flex items-center justify-center px-4 py-3.5 bg-gradient-to-r from-emerald-50 to-emerald-100 hover:from-emerald-100 hover:to-emerald-200 text-emerald-700 font-semibold rounded-xl transition-all duration-300 shadow-sm active:scale-98 touch-manipulation group"
                   onClick={() => setIsOpen(false)}
                 >

@@ -26,17 +26,6 @@ export default function ContactPage() {
                     </p>
                 </div>
             </BackgroundHeroLayout>
-            {/* <section className="bg-gradient-to-br from-teal-50 to-blue-50 py-20">
-                <div className="container mx-auto px-4 lg:px-6 text-center">
-                    <h1 className="text-5xl lg:text-6xl font-bold text-gray-800 mb-4 leading-tight">
-                        Contact <span className="text-teal-600">Us</span>
-                    </h1>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        We’re here to assist you with appointments, inquiries, and general
-                        information about Klinik Mekar.
-                    </p>
-                </div>
-            </section> */}
 
             {/* Contact Info Grid */}
             <section className="py-16 bg-white">
@@ -47,8 +36,8 @@ export default function ContactPage() {
                         </div>
                         <h3 className="text-lg font-semibold text-gray-800">Call Us</h3>
                         <p className="text-gray-600">
-                            <a href="tel:+60123456789" className="hover:text-teal-600">
-                                +60 12-345 6789
+                            <a href="tel:+601169999443" className="hover:text-teal-600">
+                                +60 11-6999 9443
                             </a>
                         </p>
                     </div>
@@ -59,8 +48,8 @@ export default function ContactPage() {
                         </div>
                         <h3 className="text-lg font-semibold text-gray-800">Email</h3>
                         <p className="text-gray-600">
-                            <a href="mailto:info@klinikmekar.com" className="hover:text-teal-600">
-                                info@klinikmekar.com
+                            <a href="mailto:klinikmekarserdang@gmail.com" className="hover:text-teal-600">
+                                klinikmekarserdang@gmail.com
                             </a>
                         </p>
                     </div>
@@ -71,7 +60,9 @@ export default function ContactPage() {
                         </div>
                         <h3 className="text-lg font-semibold text-gray-800">Visit Us</h3>
                         <p className="text-gray-600">
-                            No. 123, Seri Kembangan,<br />Selangor, Malaysia
+                            A-G-3A, A-G5 Jalan SP 4/1
+                            <br/>  Seksyen 4, Taman Serdang Perdana
+                            <br/> 43300 Seri Kembangan, Selangor
                         </p>
                     </div>
                     <div className="p-6 bg-gray-50 rounded-xl shadow hover:shadow-md transition-shadow">

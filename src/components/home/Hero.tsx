@@ -96,7 +96,7 @@ export default function HeroSection({ isVisible }: HeroSectionProps) {
               <div className="absolute inset-0 rounded-2xl ring-4 ring-blue-300/50 scale-0 group-hover:scale-100 transition-transform duration-300"></div>
             </a>
 
-            <a href="tel:+60123456789" className="group relative inline-flex items-center px-8 py-4 bg-white/90 backdrop-blur-sm hover:bg-white text-gray-800 font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl border-2 border-emerald-500 hover:border-emerald-600 transform hover:scale-105">
+            <a href="tel:+601169999443" className="group relative inline-flex items-center px-8 py-4 bg-white/90 backdrop-blur-sm hover:bg-white text-gray-800 font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl border-2 border-emerald-500 hover:border-emerald-600 transform hover:scale-105">
               <div className="w-3 h-3 bg-emerald-500 rounded-full mr-3 animate-pulse"></div>
               <svg className="w-5 h-5 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -106,7 +106,7 @@ export default function HeroSection({ isVisible }: HeroSectionProps) {
           </div>
 
           <div className={`mt-12 pt-8 border-t border-white/30 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <p className="text-gray-600 mb-4 text-sm uppercase tracking-wider font-semibold">Trusted by 10,000+ patients</p>
+            <p className="text-gray-600 mb-4 text-sm uppercase tracking-wider font-semibold">Your health, our community’s trust</p>
             <div className="flex justify-center items-center space-x-8 opacity-60">
               <div className="flex items-center">
                 <span className="text-2xl font-bold text-red-600">4.9</span>
