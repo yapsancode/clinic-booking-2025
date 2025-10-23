@@ -20,7 +20,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
     iconColor = 'text-green-600',
     showArrow = false,
 }) => {
-    const phoneNumber = '60123456789'; // your clinic number
+    const phoneNumber = '601169999443'; // your clinic number
     const handleClick = () => {
         const encodedMessage = encodeURIComponent(message);
         const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
