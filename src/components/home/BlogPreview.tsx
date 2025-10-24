@@ -1,39 +1,43 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { fetchBlogs } from "@/lib/api/blogs";
+import { Blogs } from "@/types/blogs";
 
 interface BlogPreviewSectionProps {
   isVisible: boolean;
 }
 
-const blogPosts = [
-  {
-    title: "When to Visit a 24-Hour Clinic: A Quick Guide",
-    excerpt: "Learn the key signs and symptoms that require urgent medical attention — and how 24-hour clinics can help.",
-    image: "/images/Heath-blog.png",
-    date: "October 10, 2025",
-    link: "/blog/when-to-visit-24-hour-clinic",
-    color: "from-red-500 to-rose-600",
-  },
-  {
-    title: "Understanding Common Fevers in Children",
-    excerpt: "Not all fevers are emergencies. Here’s how to know when to visit your doctor — and what you can do at home first.",
-    image: "/images/Heath-blog.png",
-    date: "October 5, 2025",
-    link: "/blog/common-fevers-in-children",
-    color: "from-emerald-500 to-teal-600",
-  },
-  {
-    title: "Simple Health Checks You Should Do Every Year",
-    excerpt: "Stay proactive with regular screenings — discover which health tests are most important for early detection.",
-    image: "/images/Heath-blog.png",
-    date: "September 28, 2025",
-    link: "/blog/annual-health-checks",
-    color: "from-blue-500 to-indigo-600",
-  },
-];
-
 export default function BlogPreviewSection({ isVisible }: BlogPreviewSectionProps) {
+  const [blogs, setBlogs] = useState<Blogs[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadBlogs() {
+      try {
+        const data = await fetchBlogs();
+        setBlogs(data);
+      } catch (err) {
+        console.error("Error loading blogs:", err);
+        setError("Failed to load blogs");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadBlogs();
+  }, []);
+
+  // While loading, you can either show nothing or a placeholder
+  if (loading) return null;
+
+  // If error occurred, hide the section completely
+  if (error) return null;
+
+  // If no blogs available, you can also choose to hide it
+  if (!blogs.length) return null;
+
   return (
     <section className="py-20 bg-gradient-to-b from-white via-red-50/20 to-blue-50/20 relative overflow-hidden">
       {/* Background accents */}
@@ -44,9 +48,8 @@ export default function BlogPreviewSection({ isVisible }: BlogPreviewSectionProp
         {/* Header */}
         <div className="text-center mb-16">
           <div
-            className={`inline-flex items-center px-4 py-2 bg-gradient-to-r from-red-100 to-blue-100 rounded-full mb-6 transition-all duration-800 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`inline-flex items-center px-4 py-2 bg-gradient-to-r from-red-100 to-blue-100 rounded-full mb-6 transition-all duration-800 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             <span className="text-red-600 font-semibold text-sm uppercase tracking-wider">
               Health Articles
@@ -54,9 +57,8 @@ export default function BlogPreviewSection({ isVisible }: BlogPreviewSectionProp
           </div>
 
           <h2
-            className={`text-4xl lg:text-5xl font-bold mb-6 transition-all duration-800 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            } delay-200`}
+            className={`text-4xl lg:text-5xl font-bold mb-6 transition-all duration-800 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              } delay-200`}
           >
             <span className="bg-gradient-to-r from-red-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
               Latest Health Insights
@@ -64,9 +66,8 @@ export default function BlogPreviewSection({ isVisible }: BlogPreviewSectionProp
           </h2>
 
           <p
-            className={`text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed transition-all duration-800 delay-300 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed transition-all duration-800 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             Stay informed with trusted medical advice and wellness tips from our doctors and healthcare team.
           </p>
@@ -74,20 +75,19 @@ export default function BlogPreviewSection({ isVisible }: BlogPreviewSectionProp
 
         {/* Blog Cards */}
         <div
-          className={`grid grid-cols-1 md:grid-cols-3 gap-8 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          } delay-500`}
+          className={`grid grid-cols-1 md:grid-cols-3 gap-8 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            } delay-500`}
         >
-          {blogPosts.map((post, index) => (
+          {blogs.map((blog) => (
             <a
-              href={post.link}
-              key={index}
+              href={`/blog/${blog.id}`}
+              key={blog.id}
               className="group bg-white/80 backdrop-blur-sm rounded-3xl border border-gray-100 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3"
             >
               <div className="relative w-full h-56 overflow-hidden">
                 <Image
-                  src={post.image}
-                  alt={post.title}
+                  src={blog.thumbnail || "/images/Heath-blog.png"}
+                  alt={blog.title}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
@@ -95,18 +95,22 @@ export default function BlogPreviewSection({ isVisible }: BlogPreviewSectionProp
               </div>
 
               <div className="p-6">
-                <div className={`text-xs font-semibold text-transparent bg-gradient-to-r ${post.color} bg-clip-text uppercase mb-2`}>
-                  {post.date}
+                <div className="text-xs font-semibold text-transparent bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text uppercase mb-2">
+                  {blog.dateAdded
+                    ? new Date(blog.dateAdded).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                    : "No date available"}
                 </div>
                 <h3 className="text-lg font-bold text-gray-800 mb-3 group-hover:text-red-600 transition-colors duration-300">
-                  {post.title}
+                  {blog.title}
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  {post.excerpt}
+                <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                  {blog.content}
                 </p>
-                <span
-                  className={`inline-flex items-center text-sm font-semibold bg-gradient-to-r ${post.color} bg-clip-text text-transparent`}
-                >
+                <span className="inline-flex items-center text-sm font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
                   Read More
                   <svg
                     className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-300"
