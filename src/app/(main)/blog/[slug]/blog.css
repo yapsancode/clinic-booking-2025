@@ -1,0 +1,9 @@
+@import "tailwindcss";              /* base Tailwind */
+@import "tailwindcss/typography";   /* enable prose only here */
+
+/* Optional: blog-specific theme tweaks */
+@theme {
+  --prose-headings: oklch(0.2 0 0);
+  --prose-body: oklch(0.45 0 0);
+  --prose-links: oklch(0.6 0.15 240);
+}

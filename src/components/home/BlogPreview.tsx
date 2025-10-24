@@ -80,10 +80,11 @@ export default function BlogPreviewSection({ isVisible }: BlogPreviewSectionProp
         >
           {blogs.map((blog) => (
             <a
-              href={`/blog/${blog.id}`}
+              href={`/blog/${blog.slug}`}
               key={blog.id}
               className="group bg-white/80 backdrop-blur-sm rounded-3xl border border-gray-100 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3"
             >
+
               <div className="relative w-full h-56 overflow-hidden">
                 <Image
                   src={blog.thumbnail || "/images/Heath-blog.png"}

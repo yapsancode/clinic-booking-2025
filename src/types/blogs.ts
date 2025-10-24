@@ -4,7 +4,9 @@ export interface Blogs {
   content: string;
   author: string;
   thumbnail: string;
-  tags: string; // could be string[] if your API ever returns an array instead
+  tags: string;
+  html_link: string;
   dateAdded: string | null;
   lastUpdated: string | null;
+  slug?: string; // <-- Optional, generated on frontend if not in API
 }
