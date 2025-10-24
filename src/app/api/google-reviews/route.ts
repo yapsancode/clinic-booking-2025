@@ -6,10 +6,10 @@ export async function GET() {
     const placeId = process.env.NEXT_PUBLIC_GOOGLE_PLACE_ID;
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY;
 
-    console.log('=== API Route Debug ===');
-    console.log('Place ID exists:', !!placeId);
-    console.log('API Key exists:', !!apiKey);
-    console.log(process.env)
+    // console.log('=== API Route Debug ===');
+    // console.log('Place ID exists:', !!placeId);
+    // console.log('API Key exists:', !!apiKey);
+    // console.log(process.env)
 
     if (!placeId || !apiKey) {
       console.error('Missing environment variables!');
