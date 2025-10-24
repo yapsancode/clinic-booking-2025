@@ -67,7 +67,7 @@ export default function RootLayout({
         {/* Main content area */}
         <main
           id="main-content"
-          className="flex-1 w-full pt-18"
+          className="flex-1 w-full pt-10"
           role="main"
         >
           {children}
