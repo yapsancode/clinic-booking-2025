@@ -5,21 +5,25 @@ import BackToTop from "@/components/layout/BackToTop";
 
 export const metadata = {
   title: "Klinik Mekar - Online Appointment Booking",
-  description: "Experience seamless healthcare with Klinik Mekar. Book appointments with trusted doctors online, manage your healthcare needs, and receive quality medical care.",
-  keywords: "clinic, doctor appointment, healthcare, medical booking, online appointment",
+  description:
+    "Experience seamless healthcare in Serdang, Bangi. Book appointments with trusted doctors online at Klinik Mekar.",
+  keywords:
+    "clinic, doctor appointment, healthcare, medical booking, online appointment, klinik Serdang, klinik Bangi, Klinik Mekar",
   authors: [{ name: "Klinik Mekar" }],
   creator: "Klinik Mekar",
   publisher: "Klinik Mekar",
   openGraph: {
     title: "Klinik Mekar - Online Appointment Booking",
-    description: "Book appointments with trusted doctors online. Quality healthcare made convenient.",
+    description:
+      "Book appointments with trusted doctors online. Quality healthcare in Serdang, Bangi.",
     type: "website",
-    locale: "en_US",
+    locale: "en_MY",
   },
   twitter: {
     card: "summary_large_image",
     title: "Klinik Mekar - Online Appointment Booking",
-    description: "Book appointments with trusted doctors online. Quality healthcare made convenient.",
+    description:
+      "Book appointments with trusted doctors online. Quality healthcare in Serdang, Bangi.",
   },
   robots: {
     index: true,
@@ -27,17 +31,16 @@ export const metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
+  viewport: { width: "device-width", initialScale: 1, maximumScale: 5 },
+  // Geo for local SEO
+  metadataBase: new URL("https://klinikmekar.com"),
 };
+
 
 export default function RootLayout({
   children,
@@ -51,6 +54,60 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <meta name="theme-color" content="#0d9488" />
         <meta name="msapplication-TileColor" content="#0d9488" />
+        <meta name="geo.region" content="MY-Selangor" />
+        <meta name="geo.placename" content="Serdang, Bangi" />
+        <meta name="geo.position" content="3.0259;101.5394" />
+        <meta name="ICBM" content="3.0259,101.5394" />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "MedicalClinic",
+              "name": "Klinik Mekar",
+              "image": "https://klinikmekar.com/og-image.jpg",
+              "@id": "https://klinikmekar.com",
+              "url": "https://klinikmekar.com",
+              "telephone": "+603-xxxx-xxxx",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Your Street Address",
+                "addressLocality": "Serdang",
+                "addressRegion": "Selangor",
+                "postalCode": "xxxxx",
+                "addressCountry": "MY"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 3.0259,
+                "longitude": 101.5394
+              },
+              "openingHoursSpecification": [
+                {
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday",
+                  ],
+                  "opens": "08:00",
+                  "closes": "17:00"
+                }
+              ],
+              "sameAs": [
+                "https://www.facebook.com/profile.php?id=61570849671649",
+                "https://www.instagram.com/klinikmekar24jamserdang/",
+                "https://www.tiktok.com/@klinikmekar24jam_serdang"
+              ]
+            }),
+          }}
+        />
+
       </head>
       <body className="min-h-screen bg-gray-50 font-sans antialiased">
         {/* Skip to main content for accessibility */}
