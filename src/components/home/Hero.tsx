@@ -28,7 +28,7 @@ export default function HeroSection({ isVisible }: HeroSectionProps) {
 
       <div className="container mx-auto px-4 lg:px-6 relative z-10">
         <div className="text-center max-w-5xl mx-auto">
-          <h1 className={`text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h1 className={`text-5xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <span className="bg-gradient-to-r from-red-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
               Your Health,
             </span>
