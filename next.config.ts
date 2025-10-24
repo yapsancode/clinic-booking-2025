@@ -1,28 +1,37 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'standalone', // ✅ Add this for optimized Docker builds
-  eslint: {
-    // ✅ Don't run ESLint during production builds (Docker, CI, etc.)
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    // ✅ Don't block builds on type errors (you'll still see them in dev)
-    ignoreBuildErrors: true,
-  },
+  output: "standalone",
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'pekldkqktiigepbpzqjg.supabase.co',
-        port: '',
-        pathname: '/storage/v1/object/public/**',
+        protocol: "https",
+        hostname: "pekldkqktiigepbpzqjg.supabase.co",
+        pathname: "/storage/v1/object/public/**",
       },
-      {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
-      },
+      { protocol: "https", hostname: "lh3.googleusercontent.com" },
     ],
+  },
+
+  async redirects() {
+    return [
+      // Redirect old Fly domain → main domain
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "clinic-booking-2025.fly.dev" }],
+        destination: "https://klinikmekar.com/:path*",
+        permanent: true,
+      },
+      // Redirect www → non-www
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.klinikmekar.com" }],
+        destination: "https://klinikmekar.com/:path*",
+        permanent: true,
+      },
+    ];
   },
 };
 
