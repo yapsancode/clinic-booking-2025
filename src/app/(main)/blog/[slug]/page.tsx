@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { fetchBlogBySlug } from "@/lib/api/blogs";
 import { Blogs } from "@/types/blogs";
-import sanitizeHtml from 'sanitize-html';
 import "./blog.css";
 
 async function fetchHTMLContent(url: string): Promise<string> {
