@@ -1,12 +1,11 @@
-import { Promotion } from "@/types/promotion";
+import { Blogs } from "@/types/blogs";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_TEST || "https://dev-app-0-1-latest.onrender.com/api";
 const API_BASE_URLV2 = "https://clinic-system-2025-backend.fly.dev/api";
 
-export async function fetchPromotions(): Promise<Promotion[]> {
+export async function fetchPromotions(): Promise<Blogs[]> {
   // console.log("Fetching from:", `${API_BASE_URL}/promotions`);
   
-  const res = await fetch(`${API_BASE_URLV2}/promotions`, {
+  const res = await fetch(`${API_BASE_URLV2}/blogs`, {
     cache: 'no-store', // or 'force-cache' depending on your needs
   });
   
