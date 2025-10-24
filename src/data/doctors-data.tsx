@@ -27,13 +27,13 @@ export const doctors = [
     bio: "Passionate about family medicine and community health.",
     image: "/images/doctors/drasheikin.png",
   },
-  // {
-  //   id: 5,
-  //   name: "Dr. Aiman",
-  //   specialty: "Sales Director",
-  //   bio: "Expert in medical sales and healthcare solutions.",
-  //   image: "/images/doctors/lee.jpg",
-  // },
+  {
+    id: 5,
+    name: "Dr. Aiman",
+    specialty: "Sales Director",
+    bio: "Expert in medical sales and healthcare solutions.",
+    image: "/images/doctors/lee.jpg",
+  },
 ];
 
 // Optional: If you want to include other key staff
